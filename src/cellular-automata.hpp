@@ -19,6 +19,7 @@ protected:
   void calculate(unsigned x, unsigned y);
   
   Graph graph;
+  Graph graph2;
 private:
 };
 

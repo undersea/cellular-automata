@@ -10,7 +10,7 @@ CellularAutomata::CellularAutomata(void)
 {}
 
 CellularAutomata::CellularAutomata(unsigned width, unsigned height)
-  : graph(width, height)
+  : graph(width, height), graph2(width, height)
 {}
 
 CellularAutomata::~CellularAutomata(void)
@@ -19,7 +19,9 @@ CellularAutomata::~CellularAutomata(void)
 void CellularAutomata::init(unsigned width, unsigned height)
 {
   Graph g(width, height);
+  Graph g2(width, height);
   this->graph = g;
+  this->graph2 = g2;
 }
 
 
@@ -36,8 +38,18 @@ void CellularAutomata::set(Graph &grid)
   graph = grid;
 }
 
+/**
+ * Used to calculate the value of the grid cell at position (x, y) based upon the following rules
+ * 
+ *      0      : class 1 + class 2 neighbours = 0
+ *      1      : class 1 > class 2 neighbours
+ *      2      : class 1 < class 2 neighbours
+ * rand({1,2}) : class 1 == class 2 neighbours
+ */
 void CellularAutomata::calculate(unsigned x, unsigned y)
-{}
+{
+  
+}
 
 
 int main(void)
