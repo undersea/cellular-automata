@@ -2,7 +2,7 @@
 
 
 Cell::Cell(void)
-  : value(0)
+  : value(UNASSIGNED)
 {
 
 }
