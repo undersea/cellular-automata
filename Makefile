@@ -6,11 +6,13 @@ CXXFLAGS=$(CFLAGS)
 
 OBJECTS=src/cellular-automata.o src/cell.o src/graph.o
 
+EXENAME=cellula-automata
+
 
 all: main
 
 main: $(OBJECTS)
-	g++ -o cellula-automata $(OBJECTS)
+	g++ -o $(EXENAME) $(OBJECTS)
 
 clean:
-	$(RM) $(OBJECTS)
+	$(RM) $(OBJECTS) $(EXENAME)

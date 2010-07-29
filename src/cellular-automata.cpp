@@ -1,8 +1,11 @@
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
+#include <ctime>
 
 #include <algorithm>
-#include <map>
+//#include <map>
+//#include <set>
 
 using namespace std;
 
@@ -65,7 +68,7 @@ void CellularAutomata::calculate(unsigned x, unsigned y)
     }
     val[graph(x,y-1).get()] += 1;
 
-    if(x < (width - 1)) {
+    if(x < (graph.width - 1)) {
       val[graph(x+1, y-1).get()] += 1;
     }
   }
@@ -74,24 +77,36 @@ void CellularAutomata::calculate(unsigned x, unsigned y)
     val[graph(x-1, y).get()] += 1;
   }
   //right of cell
-  if(x < (width - 1)) {
+  if(x < (graph.width - 1)) {
     val[graph(x+1, y).get()] += 1;
   }
   //bottom 3
-  if(y < (height - 1)) {
+  if(y < (graph.height - 1)) {
     if(x > 0) {
       val[graph(x-1, y+1).get()] += 1;
     }
     val[graph(x, y+1).get()] += 1;
-    if(x < (width - 1)) {
+    if(x < (graph.width - 1)) {
       val[graph(x+1, y+1).get()] += 1;
     }
   }
 
 
-  best = for_each(val.begin(), val.end(), find_best< pair<const int, int> >());
+  int denominator = 1;
 
-  graph2(x, y).set(best.best_value);
+  best = for_each(val.begin(), val.end(), find_best< pair<const int, int> >());
+  if(val.size() >= 8) {
+    denominator = 8;
+  } else {
+    denominator = val.size();
+  }
+
+  if(val[best.best_value] * denominator == 8) {
+    //randomly assign
+    graph2(x, y).set(rand() % 2);
+  } else {
+    graph2(x, y).set(best.best_value);
+  }
 }
 
 
@@ -99,6 +114,9 @@ int main(void)
 {
   Graph graph(10, 10);
   int i,j;
+  
+
+  srand(time(NULL));
   for(i=0;i<10;i++) {
     for(j=0;j<10;j++) {
       //graph(i,j).set((i+1)*(j+1));
@@ -107,8 +125,8 @@ int main(void)
     putchar('\n');
   }
 
-  CellularAutomata automata;
-  automata.set(graph);
+  //CellularAutomata automata;
+  //automata.set(graph);
 
   return 0;
 }

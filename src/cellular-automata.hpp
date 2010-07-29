@@ -3,7 +3,7 @@
 
 template<class T> struct find_best : public unary_function<T, void>
 {
-  void operator() (T x) { best_value = x.second > best_value ? x.first : best_value; }
+  void operator() (T x){ best_value = x.second > best_value ? x.first : best_value; }
   int best_value;
 };
 
