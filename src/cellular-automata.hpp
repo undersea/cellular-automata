@@ -3,11 +3,18 @@
 
 template<class T> struct find_best : public unary_function<T, void>
 {
-  void operator() (T x){ best_value = x.second > best_value ? x.first : best_value; }
+  void operator() (T x){
+    even &= total == x.second;
+    best_value = x.second > total ? x.first : best_value;
+    total = best_value == x.first ? x.second : total;
+  }
   int best_value;
+  int total;
+  bool even;
 };
 
-
+namespace CellulaAutomata
+{
 
 class CellularAutomata
 {
@@ -23,6 +30,7 @@ public:
   Graph get(void) const;
   void set(Graph &grid);
 
+  Graph &operator () (void);
 protected:
   void calculate(unsigned x, unsigned y);
   
@@ -31,4 +39,5 @@ protected:
 private:
 };
 
+}
 #endif //CELLULAR_AUTOMATA

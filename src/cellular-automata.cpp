@@ -13,7 +13,8 @@ using namespace std;
 #include "graph.hpp"
 #include "cellular-automata.hpp"
 
-
+namespace CellulaAutomata
+{
 CellularAutomata::CellularAutomata(void)
 {}
 
@@ -35,7 +36,12 @@ void CellularAutomata::init(unsigned width, unsigned height)
 
 void CellularAutomata::step(void)
 {
-  
+  for(unsigned x = 0; x < graph.width; x++) {
+    for(unsigned y = 0; y < graph.height; y++) {
+      calculate(x, y);
+    }
+  }
+  graph = graph2;
 }
 
 Graph CellularAutomata::get(void) const
@@ -47,6 +53,13 @@ void CellularAutomata::set(Graph &grid)
 {
   graph = grid;
 }
+
+
+Graph &CellularAutomata::operator () (void)
+{
+  return graph;
+}
+
 
 /**
  * Used to calculate the value of the grid cell at position (x, y) based upon the following rules
@@ -61,6 +74,7 @@ void CellularAutomata::calculate(unsigned x, unsigned y)
 {
   map<int, int> val;
   find_best< pair<const int, int> > best;
+  std::set<int> classes = graph.generate_classes();
   //3 above cell
   if(y > 0) {
     if(x > 0) {
@@ -95,32 +109,128 @@ void CellularAutomata::calculate(unsigned x, unsigned y)
   int denominator = 1;
 
   best = for_each(val.begin(), val.end(), find_best< pair<const int, int> >());
-  if(val.size() >= 8) {
-    denominator = 8;
-  } else {
-    denominator = val.size();
-  }
+  
 
-  if(val[best.best_value] * denominator == 8) {
+  if(best.even && val.size() > 1) {
     //randomly assign
-    graph2(x, y).set(rand() % 2);
+    int tmp = rand() % classes.size();
+    graph2(x, y).set(tmp);
+    printf("rand for {%d,%d} of %d\n", x, y, tmp);
   } else {
-    graph2(x, y).set(best.best_value);
+    if(best.best_value != 0) {
+      graph2(x, y).set(best.best_value);
+    }
   }
 }
 
+  template<class T> struct print : public unary_function<T, void>
+  {
+    void operator () (T x) { printf("%d", x); }
+  };
+}
 
 int main(void)
 {
-  Graph graph(10, 10);
+  CellulaAutomata::CellularAutomata graph(25, 25);
   int i,j;
   
 
   srand(time(NULL));
-  for(i=0;i<10;i++) {
-    for(j=0;j<10;j++) {
-      //graph(i,j).set((i+1)*(j+1));
-      printf("%d\t", graph(i,j).get());
+  int val = 1;
+  for(i=0;i<4;i++) {
+    unsigned x;
+    unsigned y;
+    do {
+      x = rand()%graph().get_width();
+      y = rand()%graph().get_height();
+    }while(x == 0 || y == 0 || x == graph().get_width() -1 || y == graph().get_height()); 
+    
+    
+    
+    graph()(x-1,y).set(val);
+    graph()(x+1,y).set(val);
+    graph()(x,y-1).set(val);
+    //graph()(x+1,y-1).set(val);
+    //graph()(x-1,y-1).set(val);
+    graph()(x,y+1).set(val);
+    //graph()(x+1,y+1).set(val);
+    //graph()(x-1,y+1).set(val);
+    graph()(x,y).set(val);
+    
+    val = i < 2 ? 1 : i < 4 ? 2 : 3;
+  }
+  set<int> classes = graph().generate_classes();
+  printf("number of classes: %d\n", (int)classes.size());
+  for(i=0;i<25;i++) {
+    for(j=0;j<25;j++) {
+      
+      printf("%d  ", graph()(i,j).get());
+    }
+    putchar('\n');
+  }
+  
+  
+  //printf("classes:");
+  //std::for_each(classes.begin(), classes.end(), CellulaAutomata::print< int >());
+  puts("------------------------------------------------------------");
+  graph.step();
+  graph.step();
+  for(i=0;i<25;i++) {
+    for(j=0;j<25;j++) {
+
+      printf("%d  ", graph()(i,j).get());
+    }
+    putchar('\n');
+  }
+
+  puts("------------------------------------------------------------");
+  graph.step();
+  graph.step();
+  for(i=0;i<25;i++) {
+    for(j=0;j<25;j++) {
+
+      printf("%d  ", graph()(i,j).get());
+    }
+    putchar('\n');
+  }
+  puts("------------------------------------------------------------");
+  graph.step();
+  graph.step();
+  for(i=0;i<25;i++) {
+    for(j=0;j<25;j++) {
+
+      printf("%d  ", graph()(i,j).get());
+    }
+    putchar('\n');
+  }
+
+  puts("------------------------------------------------------------");
+  graph.step();
+  graph.step();
+  for(i=0;i<25;i++) {
+    for(j=0;j<25;j++) {
+
+      printf("%d  ", graph()(i,j).get());
+    }
+    putchar('\n');
+  }
+  puts("------------------------------------------------------------");
+  graph.step();
+  graph.step();
+  for(i=0;i<25;i++) {
+    for(j=0;j<25;j++) {
+
+      printf("%d  ", graph()(i,j).get());
+    }
+    putchar('\n');
+  }
+  puts("------------------------------------------------------------");
+  graph.step();
+  graph.step();
+  for(i=0;i<25;i++) {
+    for(j=0;j<25;j++) {
+
+      printf("%d  ", graph()(i,j).get());
     }
     putchar('\n');
   }
