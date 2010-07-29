@@ -24,6 +24,8 @@ public:
   void set(int val, int x, int y);
 protected:
   vector< vector<Cell> > grid;
+  unsigned width;
+  unsigned height;
 private:
 };
 

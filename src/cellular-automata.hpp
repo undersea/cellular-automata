@@ -1,6 +1,14 @@
 #ifndef CELLULAR_AUTOMATA
 #define CELLULAR_AUTOMATA
 
+template<class T> struct find_best : public unary_function<T, void>
+{
+  void operator() (T x) { best_value = x.second > best_value ? x.second : best_value; }
+  int best_value;
+};
+
+
+
 class CellularAutomata
 {
 public:

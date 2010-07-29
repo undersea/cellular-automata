@@ -2,7 +2,7 @@
 #define CELL_HPP
 
 enum {
-  UNASSIGNED = -1
+  UNASSIGNED = 0
 };
 
 class Cell
