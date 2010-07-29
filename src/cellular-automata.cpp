@@ -106,12 +106,10 @@ void CellularAutomata::calculate(unsigned x, unsigned y)
   }
 
 
-  int denominator = 1;
-
   best = for_each(val.begin(), val.end(), find_best< pair<const int, int> >());
   
 
-  if(best.even && val.size() > 1) {
+  if(best.even) {
     //randomly assign
     int tmp = rand() % classes.size();
     graph2(x, y).set(tmp);
@@ -119,6 +117,9 @@ void CellularAutomata::calculate(unsigned x, unsigned y)
   } else {
     if(best.best_value != 0) {
       graph2(x, y).set(best.best_value);
+      //printf("set {%d, %d} to %d\n", x,y,best.best_value);
+    } else {
+      graph2(x, y).set(graph(x,y).get());
     }
   }
 }
