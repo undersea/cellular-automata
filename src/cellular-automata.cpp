@@ -7,6 +7,8 @@
 //#include <map>
 //#include <set>
 
+#include <fstream>
+
 using namespace std;
 
 #include "cell.hpp"
@@ -134,32 +136,12 @@ int main(void)
 {
   CellulaAutomata::CellularAutomata graph(25, 25);
   int i,j;
+  ifstream input;
   
+  input.open("points.txt");
+  graph().load(input);
+  input.close();
 
-  srand(time(NULL));
-  int val = 1;
-  for(i=0;i<4;i++) {
-    unsigned x;
-    unsigned y;
-    do {
-      x = rand()%graph().get_width();
-      y = rand()%graph().get_height();
-    }while(x == 0 || y == 0 || x == graph().get_width() -1 || y == graph().get_height()); 
-    
-    
-    
-    graph()(x-1,y).set(val);
-    graph()(x+1,y).set(val);
-    graph()(x,y-1).set(val);
-    //graph()(x+1,y-1).set(val);
-    //graph()(x-1,y-1).set(val);
-    graph()(x,y+1).set(val);
-    //graph()(x+1,y+1).set(val);
-    //graph()(x-1,y+1).set(val);
-    graph()(x,y).set(val);
-    
-    val = i < 2 ? 1 : i < 4 ? 2 : 3;
-  }
   set<int> classes = graph().generate_classes();
   printf("number of classes: %d\n", (int)classes.size());
   for(i=0;i<25;i++) {

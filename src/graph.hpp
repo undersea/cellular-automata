@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <istream>
 
 using namespace std;
 
@@ -33,6 +34,7 @@ namespace CellulaAutomata
     const unsigned get_height(void) const;
 
     const std::set<int> generate_classes(void) const;
+    void load(std::istream &input);
   protected:
     vector< vector<Cell> > grid;
     unsigned width;

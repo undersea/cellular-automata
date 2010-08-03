@@ -40,25 +40,25 @@ namespace CellulaAutomata
 
   const Cell &Graph::operator () (unsigned x, unsigned y) const
   {
-    return grid[x][y];
+    return grid[y][x];
   }
 
 
   Cell &Graph::operator () (unsigned x, unsigned y)
   {
-    return grid[x][y];
+    return grid[y][x];
   }
 
 
   const int Graph::get(int x, int y) const
   {
   
-    return grid[x][y].get();
+    return grid[y][x].get();
   }
 
   void Graph::set(int val, int x, int y)
   {
-    grid[x][y].set(val);
+    grid[y][x].set(val);
   }
 
 
@@ -83,6 +83,27 @@ namespace CellulaAutomata
     }
 
     return classes;
+  }
+
+  void Graph::load(std::istream &input)
+  {
+    while(!input.eof()) {
+      unsigned x, y, value;
+      input >> x >> y >> value;
+      (*this)(x,y).set(value);
+      if(x > 0) {
+	(*this)(x-1,y).set(value);
+      }
+      if(x<width-1) {
+	(*this)(x+1,y).set(value);
+      }
+      if(y > 0) {
+	(*this)(x,y-1).set(value);
+      }
+      if(y < height - 1) {
+	(*this)(x,y+1).set(value);
+      }
+    }
   }
 
 }
