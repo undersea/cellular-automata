@@ -64,6 +64,7 @@ Graph &CellularAutomata::operator () (void)
 
 
 /**
+ * Using Von Neumann method of being influenced by the north, south, east and west.
  * Used to calculate the value of the grid cell at position (x, y) based upon the following rules
  * 
  *      0      : class 1 + class 2 neighbours = 0
@@ -79,14 +80,14 @@ void CellularAutomata::calculate(unsigned x, unsigned y)
   std::set<int> classes = graph.generate_classes();
   //3 above cell
   if(y > 0) {
-    if(x > 0) {
-      val[graph(x-1,y-1).get()] += 1;
-    }
+    //    if(x > 0) {
+    //  val[graph(x-1,y-1).get()] += 1;
+    //}
     val[graph(x,y-1).get()] += 1;
 
-    if(x < (graph.width - 1)) {
-      val[graph(x+1, y-1).get()] += 1;
-    }
+    //if(x < (graph.width - 1)) {
+    //  val[graph(x+1, y-1).get()] += 1;
+    //}
   }
   //left of cell
   if(x > 0) {
@@ -98,13 +99,13 @@ void CellularAutomata::calculate(unsigned x, unsigned y)
   }
   //bottom 3
   if(y < (graph.height - 1)) {
-    if(x > 0) {
-      val[graph(x-1, y+1).get()] += 1;
-    }
+    //if(x > 0) {
+    //  val[graph(x-1, y+1).get()] += 1;
+    //}
     val[graph(x, y+1).get()] += 1;
-    if(x < (graph.width - 1)) {
-      val[graph(x+1, y+1).get()] += 1;
-    }
+    //if(x < (graph.width - 1)) {
+    //  val[graph(x+1, y+1).get()] += 1;
+    //}
   }
 
 
