@@ -1,6 +1,9 @@
 #ifndef CELLULAR_AUTOMATA
 #define CELLULAR_AUTOMATA
 
+#include "graph.hpp"
+#include "cell.hpp"
+
 template<class T> struct find_best : public unary_function<T, void>
 {
   void operator() (T x){
@@ -20,10 +23,11 @@ namespace CellularAutomata
   {
   public:
     CellularAutomata(void);
-    CellularAutomata(unsigned width, unsigned height);
+    //    CellularAutomata(unsigned width, unsigned height);
+    CellularAutomata(const std::set<unsigned> dimensions);
     ~CellularAutomata(void);
 
-    void init(unsigned width, unsigned height);
+    //void init(unsigned width, unsigned height);
     void step(void);
   
 
@@ -31,9 +35,9 @@ namespace CellularAutomata
     void set(Graph &grid);
 
     Graph &operator () (void);
-    Cell  &operator (unsigned x, unsigned y);
+    //Cell  &operator (unsigned x, unsigned y);
   protected:
-    void calculate(unsigned x, unsigned y);
+    //void calculate(unsigned x, unsigned y);
   
     Graph graph;
     Graph graph2;

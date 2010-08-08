@@ -14,35 +14,36 @@ using namespace std;
 #include "cell.hpp"
 #include "graph.hpp"
 #include "cellular-automata.hpp"
+#include "coord.hpp"
 
 namespace CellularAutomata
 {
   CellularAutomata::CellularAutomata(void)
   {}
 
-  CellularAutomata::CellularAutomata(unsigned width, unsigned height)
+  /*CellularAutomata::CellularAutomata(unsigned width, unsigned height)
     : graph(width, height), graph2(width, height)
-  {}
+    {}*/
 
   CellularAutomata::~CellularAutomata(void)
   {}
 
-  void CellularAutomata::init(unsigned width, unsigned height)
+  /*void CellularAutomata::init(unsigned width, unsigned height)
   {
     Graph g(width, height);
     Graph g2(width, height);
     this->graph = g;
     this->graph2 = g2;
-  }
+    }*/
 
 
   void CellularAutomata::step(void)
   {
-    for(unsigned x = 0; x < graph.width; x++) {
+    /*for(unsigned x = 0; x < graph.width; x++) {
       for(unsigned y = 0; y < graph.height; y++) {
 	calculate(x, y);
       }
-    }
+      }*/
     graph = graph2;
   }
 
@@ -73,7 +74,7 @@ namespace CellularAutomata
    * rand({1,2}) : class 1 == class 2 neighbours
    * for the moment will not wrap the grid so ignore any x value < 0 or > width and y values < 0 or >  height.
    */
-  void CellularAutomata::calculate(unsigned x, unsigned y)
+  /*void CellularAutomata::calculate(unsigned x, unsigned y)
   {
     map<int, int> val;
     find_best< pair<const int, int> > best;
@@ -126,7 +127,7 @@ namespace CellularAutomata
       }
     }
   }
-
+  */
   template<class T> struct print : public unary_function<T, void>
   {
     void operator () (T x) { printf("%d", x); }
@@ -135,19 +136,22 @@ namespace CellularAutomata
 
 int main(void)
 {
-  CellulaAutomata::CellularAutomata graph(25, 25);
+  CellularAutomata::CellularAutomata graph;
   int i,j;
   ifstream input;
   
   input.open("points.txt");
-  graph().load(input);
+  //graph().load(input);
   input.close();
 
-  set<int> classes = graph().generate_classes();
-  printf("number of classes: %d\n", (int)classes.size());
+  //set<int> classes = graph().generate_classes();
+  //printf("number of classes: %d\n", (int)classes.size());
   for(i=0;i<25;i++) {
     for(j=0;j<25;j++) {
-      printf("%d  ", graph()(j,i).get());
+      CellularAutomata::Coord coord;
+      coord[0] = i;
+      coord[1] = j;
+      printf("%d  ", graph()(coord).get());
     }
     putchar('\n');
   }
@@ -155,71 +159,7 @@ int main(void)
   
   //printf("classes:");
   //std::for_each(classes.begin(), classes.end(), CellulaAutomata::print< int >());
-  puts("------------------------------------------------------------");
-  graph.step();
-  graph.step();
-  for(i=0;i<25;i++) {
-    for(j=0;j<25;j++) {
-
-      printf("%d  ", graph()(j,i).get());
-    }
-    putchar('\n');
-  }
-
-  puts("------------------------------------------------------------");
-  graph.step();
-  graph.step();
-  for(i=0;i<25;i++) {
-    for(j=0;j<25;j++) {
-
-      printf("%d  ", graph()(j,i).get());
-    }
-    putchar('\n');
-  }
-  puts("------------------------------------------------------------");
-  graph.step();
-  graph.step();
-  for(i=0;i<25;i++) {
-    for(j=0;j<25;j++) {
-
-      printf("%d  ", graph()(j,i).get());
-    }
-    putchar('\n');
-  }
-
-  puts("------------------------------------------------------------");
-  graph.step();
-  graph.step();
-  for(i=0;i<25;i++) {
-    for(j=0;j<25;j++) {
-
-      printf("%d  ", graph()(j,i).get());
-    }
-    putchar('\n');
-  }
-  puts("------------------------------------------------------------");
-  graph.step();
-  graph.step();
-  for(i=0;i<25;i++) {
-    for(j=0;j<25;j++) {
-
-      printf("%d  ", graph()(j,i).get());
-    }
-    putchar('\n');
-  }
-  puts("------------------------------------------------------------");
-  graph.step();
-  graph.step();
-  for(i=0;i<25;i++) {
-    for(j=0;j<25;j++) {
-
-      printf("%d  ", graph()(j,i).get());
-    }
-    putchar('\n');
-  }
-
-  //CellularAutomata automata;
-  //automata.set(graph);
+ 
 
   return 0;
 }

@@ -1,34 +1,35 @@
-//#include <iostream>
+#include <iostream>
+#include <stdlib.h>
+
 #include "graph.hpp"
 
-namespace CellulaAutomata
+namespace CellularAutomata
 {
-
   Graph::Graph(void)
-    : grid(100, std::vector<Cell>(100)), width(100), height(100)
+    : grid(10000), dimensions(100, 100)
   {
-
+    std::cout << dimensions[0] << "x" << dimensions[1] << endl;
   }
 
 
   Graph::Graph(Graph &orig)
-    :grid(orig.grid), width(orig.width), height(orig.height)
+    :grid(orig.grid),
+     dimensions(orig.dimensions)
   {
 
   }
 
 
   Graph::Graph(const Graph &orig)
-    : grid(orig.grid), width(orig.width), height(orig.height)
+    : grid(orig.grid), dimensions(orig.dimensions)
   {
   
   }
 
 
-  Graph::Graph(int width, int height)
-    : grid(width, std::vector<Cell>(height)), width(width), height(height)
+  Graph::Graph(const std::vector<unsigned> dimensions)
+    : grid(), dimensions(dimensions)
   {
-
   }
 
 
@@ -38,31 +39,53 @@ namespace CellulaAutomata
   }
 
 
-  const Cell &Graph::operator () (unsigned x, unsigned y) const
+  const Cell &Graph::operator () (const Coord &coord) const
   {
-    return grid[x][y];
+    unsigned pos = 0;
+    unsigned i;
+    for(i = 0; i < coord.size() - 1; i++) {
+      pos += coord[i] * dimensions[i];
+    }
+
+    pos += coord[i];
+
+    return grid[pos];
   }
 
-
-  Cell &Graph::operator () (unsigned x, unsigned y)
-  {
-    return grid[x][y];
-  }
-
-
-  const int Graph::get(int x, int y) const
-  {
   
-    return grid[x][y].get();
-  }
-
-  void Graph::set(int val, int x, int y)
+  Cell &Graph::operator () (const Coord &coord)
   {
-    grid[x][y].set(val);
+    unsigned pos = 0;
+    unsigned i;
+    for(i = 0; i < coord.size() - 1; i++) {
+      pos += coord[i] * dimensions[i];
+    }
+
+    pos += coord[i];
+
+    return grid[pos];
+  }
+
+  /*|0|1|2| |9 |10|11| |18|19|20|
+   *|3|4|5| |12|13|14| |21|22|23|
+   *|6|7|8| |15|16|17| |24|25|26|
+   */
+
+  
+  const int Graph::get(const Coord &coord) const
+  {
+    return (*this)(coord).get();
+    //return grid[x][y].get();
+  }
+
+  void Graph::set(const int val, const Coord &coord)
+  {
+    (*this)(coord).set(val);
+    //grid[x][y].set(val);
   }
 
 
-  const unsigned Graph::get_width(void) const
+  /*const unsigned Graph::get_width(void) const
   {
     return width;
   }
@@ -72,15 +95,14 @@ namespace CellulaAutomata
     return height;
   }
 
-
+  */
   const std::set<int> Graph::generate_classes(void) const
   {
     std::set<int> classes;
-    for(unsigned i = 0; i < width; i++) {
-      for(unsigned j = 0; j < height; j++) {
-	classes.insert(grid[i][j].get());
-      }
+    for(unsigned i = 0; i < grid.size(); i++) {
+      classes.insert(grid[i].get());
     }
+    
 
     return classes;
   }
@@ -90,7 +112,7 @@ namespace CellulaAutomata
     while(!input.eof()) {
       unsigned x, y, value;
       input >> x >> y >> value;
-      (*this)(x,y).set(value);
+      //(*this)(x,y).set(value);
     }
   }
 
