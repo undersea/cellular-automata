@@ -2,6 +2,7 @@
 #define GRAPH_HPP
 
 #include <vector>
+//#include <list>
 #include <map>
 #include <set>
 #include <istream>
@@ -36,7 +37,7 @@ namespace CellulaAutomata
     const std::set<int> generate_classes(void) const;
     void load(std::istream &input);
   protected:
-    vector< vector<Cell> > grid;
+    std::vector< std::vector<Cell> > grid;
     unsigned width;
     unsigned height;
   private:

@@ -5,7 +5,7 @@ namespace CellulaAutomata
 {
 
   Graph::Graph(void)
-    : grid(100, vector<Cell>(100)), width(100), height(100)
+    : grid(100, std::vector<Cell>(100)), width(100), height(100)
   {
 
   }
@@ -26,7 +26,7 @@ namespace CellulaAutomata
 
 
   Graph::Graph(int width, int height)
-    : grid(width, vector<Cell>(height)), width(width), height(height)
+    : grid(width, std::vector<Cell>(height)), width(width), height(height)
   {
 
   }
@@ -40,25 +40,25 @@ namespace CellulaAutomata
 
   const Cell &Graph::operator () (unsigned x, unsigned y) const
   {
-    return grid[y][x];
+    return grid[x][y];
   }
 
 
   Cell &Graph::operator () (unsigned x, unsigned y)
   {
-    return grid[y][x];
+    return grid[x][y];
   }
 
 
   const int Graph::get(int x, int y) const
   {
   
-    return grid[y][x].get();
+    return grid[x][y].get();
   }
 
   void Graph::set(int val, int x, int y)
   {
-    grid[y][x].set(val);
+    grid[x][y].set(val);
   }
 
 
@@ -91,18 +91,6 @@ namespace CellulaAutomata
       unsigned x, y, value;
       input >> x >> y >> value;
       (*this)(x,y).set(value);
-      if(x > 0) {
-	(*this)(x-1,y).set(value);
-      }
-      if(x<width-1) {
-	(*this)(x+1,y).set(value);
-      }
-      if(y > 0) {
-	(*this)(x,y-1).set(value);
-      }
-      if(y < height - 1) {
-	(*this)(x,y+1).set(value);
-      }
     }
   }
 

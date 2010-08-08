@@ -13,7 +13,7 @@ template<class T> struct find_best : public unary_function<T, void>
   bool even;
 };
 
-namespace CellulaAutomata
+namespace CellularAutomata
 {
 
   class CellularAutomata
@@ -31,6 +31,7 @@ namespace CellulaAutomata
     void set(Graph &grid);
 
     Graph &operator () (void);
+    Cell  &operator (unsigned x, unsigned y);
   protected:
     void calculate(unsigned x, unsigned y);
   
@@ -39,5 +40,5 @@ namespace CellulaAutomata
   private:
   };
 
-}
+} // namespace CellularAutomata
 #endif //CELLULAR_AUTOMATA
