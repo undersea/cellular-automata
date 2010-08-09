@@ -1,6 +1,10 @@
 #ifndef CELLULAR_AUTOMATA
 #define CELLULAR_AUTOMATA
 
+#include "graph.hpp"
+#include "cell.hpp"
+#include "coord.hpp"
+
 template<class T> struct find_best : public unary_function<T, void>
 {
   void operator() (T x){
@@ -13,17 +17,18 @@ template<class T> struct find_best : public unary_function<T, void>
   bool even;
 };
 
-namespace CellulaAutomata
+namespace CellularAutomata
 {
 
   class CellularAutomata
   {
   public:
     CellularAutomata(void);
-    CellularAutomata(unsigned width, unsigned height);
+    //    CellularAutomata(unsigned width, unsigned height);
+    CellularAutomata(const std::vector<unsigned> &dimensions);
     ~CellularAutomata(void);
 
-    void init(unsigned width, unsigned height);
+    //void init(unsigned width, unsigned height);
     void step(void);
   
 
@@ -31,13 +36,14 @@ namespace CellulaAutomata
     void set(Graph &grid);
 
     Graph &operator () (void);
+    //Cell  &operator (const Coord &coord);
   protected:
-    void calculate(unsigned x, unsigned y);
+    //void calculate(unsigned x, unsigned y);
   
     Graph graph;
     Graph graph2;
   private:
   };
 
-}
+} // namespace CellularAutomata
 #endif //CELLULAR_AUTOMATA
