@@ -37,7 +37,7 @@ namespace CellularAutomata
     const unsigned get_number_dimensions(void) const;
     const int get_dimension_size(const unsigned dimesion) const;
 
-    const std::set<int> generate_classes(void) const;
+    const std::set<unsigned> generate_classes(void) const;
     void load(std::istream &input, char delimeter=',');
   protected:
     /* treat as a multidimensional array
@@ -45,6 +45,7 @@ namespace CellularAutomata
      */
     std::vector< Cell > grid;
     std::vector<unsigned> dimensions;
+    std::set<unsigned> klasses;
   private:
   };
   

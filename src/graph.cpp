@@ -37,6 +37,7 @@ namespace CellularAutomata
       size *= this->dimensions[i];
     }
     grid.resize(size);
+    std::cout << "graph size = " << size << std::endl;
   }
 
 
@@ -90,15 +91,16 @@ namespace CellularAutomata
   }
 
 
-  const std::set<int> Graph::generate_classes(void) const
+  const std::set<unsigned> Graph::generate_classes(void) const
   {
-    std::set<int> classes;
+    /*std::set<int> classes;
     for(unsigned i = 0; i < grid.size(); i++) {
       classes.insert(grid[i].get());
     }
     
 
-    return classes;
+    return classes;*/
+    return klasses;
   }
 
   void Graph::load(std::istream &input, char delimeter)
@@ -106,10 +108,8 @@ namespace CellularAutomata
     while(!input.eof()) {
       unsigned axis, value;
       Coord coord(dimensions.size());
-      std::cout << coord.size() << std::endl;
       for(unsigned i = 0; !input.eof() && i < dimensions.size(); i++) {
 	input >> axis; //assume all data is in integer format
-	std::cout << axis << ',';
 	coord[i] = axis;
 	
 	if(delimeter != ' ') {
@@ -119,7 +119,7 @@ namespace CellularAutomata
 	
       }
       input >> value;
-      std::cout << value << std::endl;
+      this->klasses.insert(value);
       (*this)(coord).set(value);
     }
   }

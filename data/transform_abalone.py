@@ -7,9 +7,9 @@ with open('abalone2.data', 'w') as data:
     for row in abareader:
         tmp = []
         print >>data, sex[row[0]],
-        for x in row[1:7]:
-            print >>data, int(round(float(x)*1000)),
-        print >>data, int(row[8])
+        for x in row[1:8]:
+            print >>data, "%2d"%(int(round(float(x)*10))),
+        print >>data, "%2d" % (int(row[8]))
         
 #    print tmp
 

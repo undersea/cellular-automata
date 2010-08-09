@@ -121,7 +121,7 @@ namespace CellularAutomata
   */
   template<class T> struct print : public unary_function<T, void>
   {
-    void operator () (T x) { printf("%d", x); }
+    void operator () (T x) { printf("%d, ", x); }
   };
 } // namespace CellularAutomata
 
@@ -130,13 +130,13 @@ int main(void)
   std::cout << "begin\n";
   std::vector<unsigned> dimensions(8);
   dimensions[0] = 3;
-  dimensions[1] = 1000;
-  dimensions[2] = 1000;
-  dimensions[3] = 1500;
-  dimensions[4] = 3000;
-  dimensions[5] = 1500;
-  dimensions[6] = 1000;
-  dimensions[7] = 1010;
+  dimensions[1] = 10;
+  dimensions[2] = 10;
+  dimensions[3] = 15;
+  dimensions[4] = 30;
+  dimensions[5] = 16;
+  dimensions[6] = 10;
+  dimensions[7] = 11;
   dimensions[8] = 30;
   std::cout << "before init graph\n";
   CellularAutomata::CellularAutomata graph(dimensions);
@@ -151,12 +151,13 @@ int main(void)
   input.close();
   std::cout << "after load\n";
 
-  //set<int> classes = graph().generate_classes();
-  //printf("number of classes: %d\n", (int)classes.size());
+  const std::set<unsigned> classes = graph().generate_classes();
+  printf("number of classes: %d\n", (unsigned)classes.size());
   
   
-  //printf("classes:");
-  //std::for_each(classes.begin(), classes.end(), CellulaAutomata::print< int >());
+  printf("classes:");
+  std::for_each(classes.begin(), classes.end(), CellularAutomata::print< unsigned >());
+  putchar('\n');
  
 
   return 0;
