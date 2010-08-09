@@ -145,7 +145,7 @@ int main(void)
   ifstream input;
   
   std::cout << "before load\n";
-  input.open("points.txt");
+  input.open("data/abalone2.data");
   std::cout << "opened\n";
   graph().load(input, ' ');
   input.close();
@@ -153,19 +153,6 @@ int main(void)
 
   //set<int> classes = graph().generate_classes();
   //printf("number of classes: %d\n", (int)classes.size());
-  for(i=0;i<25;i++) {
-    for(j=0;j<25;j++) {
-      for(k=0;k<25;k++) {
-	CellularAutomata::Coord coord(3);
-	coord[0] = i;
-	coord[1] = j;
-	coord[2] = k;
-	printf("%d ", graph()(coord).get());
-      }
-      putchar('\n');
-    }
-    putchar('\n');
-  }
   
   
   //printf("classes:");
