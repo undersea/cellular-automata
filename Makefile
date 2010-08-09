@@ -6,7 +6,7 @@ CXXFLAGS=$(CFLAGS)
 
 OBJECTS=src/cellular-automata.o src/cell.o src/graph.o
 
-EXENAME=cellula-automata
+EXENAME=cellular-automata
 
 
 all: main

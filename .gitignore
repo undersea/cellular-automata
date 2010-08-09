@@ -13,3 +13,6 @@
 /src/graph.o
 /src/Makefile~
 /points.txt~
+/cellular-automata
+/data/#abalone.names#
+/data/transform_abalone.py~

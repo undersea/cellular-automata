@@ -128,10 +128,16 @@ namespace CellularAutomata
 int main(void)
 {
   std::cout << "begin\n";
-  std::vector<unsigned> dimensions(3);
-  dimensions[0] = 25;
-  dimensions[1] = 25;
-  dimensions[2] = 25;
+  std::vector<unsigned> dimensions(8);
+  dimensions[0] = 3;
+  dimensions[1] = 1000;
+  dimensions[2] = 1000;
+  dimensions[3] = 1500;
+  dimensions[4] = 3000;
+  dimensions[5] = 1500;
+  dimensions[6] = 1000;
+  dimensions[7] = 1010;
+  dimensions[8] = 30;
   std::cout << "before init graph\n";
   CellularAutomata::CellularAutomata graph(dimensions);
   std::cout << "after init graph\n";
