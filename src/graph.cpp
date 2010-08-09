@@ -1,4 +1,6 @@
 #include <iostream>
+
+
 #include <stdlib.h>
 
 #include "graph.hpp"
@@ -30,6 +32,11 @@ namespace CellularAutomata
   Graph::Graph(const std::vector<unsigned> dimensions)
     : grid(), dimensions(dimensions)
   {
+    unsigned size = 1;
+    for(unsigned i = 0; i < this->dimensions.size(); i++) {
+      size *= this->dimensions[i];
+    }
+    grid.resize(size);
   }
 
 
@@ -75,27 +82,14 @@ namespace CellularAutomata
   const int Graph::get(const Coord &coord) const
   {
     return (*this)(coord).get();
-    //return grid[x][y].get();
   }
 
   void Graph::set(const int val, const Coord &coord)
   {
     (*this)(coord).set(val);
-    //grid[x][y].set(val);
   }
 
 
-  /*const unsigned Graph::get_width(void) const
-  {
-    return width;
-  }
-
-  const unsigned Graph::get_height(void) const
-  {
-    return height;
-  }
-
-  */
   const std::set<int> Graph::generate_classes(void) const
   {
     std::set<int> classes;
@@ -107,12 +101,26 @@ namespace CellularAutomata
     return classes;
   }
 
-  void Graph::load(std::istream &input)
+  void Graph::load(std::istream &input, char delimeter)
   {
     while(!input.eof()) {
-      unsigned x, y, value;
-      input >> x >> y >> value;
-      //(*this)(x,y).set(value);
+      unsigned axis, value;
+      Coord coord(dimensions.size());
+      std::cout << coord.size() << std::endl;
+      for(unsigned i = 0; !input.eof() && i < dimensions.size(); i++) {
+	input >> axis; //assume all data is in integer format
+	std::cout << axis << ',';
+	coord[i] = axis;
+	
+	if(delimeter != ' ') {
+	  char tmp;
+	  input >> tmp;
+	}
+	
+      }
+      input >> value;
+      std::cout << value << std::endl;
+      (*this)(coord).set(value);
     }
   }
 

@@ -38,7 +38,7 @@ namespace CellularAutomata
     const int get_dimension_size(const unsigned dimesion) const;
 
     const std::set<int> generate_classes(void) const;
-    void load(std::istream &input);
+    void load(std::istream &input, char delimeter=',');
   protected:
     /* treat as a multidimensional array
      * eg grid[x][y] == grid[size/y+x] or grid[x][y][z] == grid[size/z/y+x]
@@ -47,8 +47,6 @@ namespace CellularAutomata
     std::vector<unsigned> dimensions;
   private:
   };
-
-  Graph NullGraph(0);
   
 } //namespace CellularAutomata
 

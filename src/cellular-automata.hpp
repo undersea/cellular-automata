@@ -3,6 +3,7 @@
 
 #include "graph.hpp"
 #include "cell.hpp"
+#include "coord.hpp"
 
 template<class T> struct find_best : public unary_function<T, void>
 {
@@ -24,7 +25,7 @@ namespace CellularAutomata
   public:
     CellularAutomata(void);
     //    CellularAutomata(unsigned width, unsigned height);
-    CellularAutomata(const std::set<unsigned> dimensions);
+    CellularAutomata(const std::vector<unsigned> &dimensions);
     ~CellularAutomata(void);
 
     //void init(unsigned width, unsigned height);
@@ -35,7 +36,7 @@ namespace CellularAutomata
     void set(Graph &grid);
 
     Graph &operator () (void);
-    //Cell  &operator (unsigned x, unsigned y);
+    //Cell  &operator (const Coord &coord);
   protected:
     //void calculate(unsigned x, unsigned y);
   

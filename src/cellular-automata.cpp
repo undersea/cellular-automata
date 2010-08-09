@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -21,29 +22,19 @@ namespace CellularAutomata
   CellularAutomata::CellularAutomata(void)
   {}
 
-  /*CellularAutomata::CellularAutomata(unsigned width, unsigned height)
-    : graph(width, height), graph2(width, height)
-    {}*/
+  CellularAutomata::CellularAutomata(const std::vector<unsigned> &dimensions)
+    : graph(dimensions), graph2(dimensions)
+  {
+
+  }
 
   CellularAutomata::~CellularAutomata(void)
   {}
 
-  /*void CellularAutomata::init(unsigned width, unsigned height)
-  {
-    Graph g(width, height);
-    Graph g2(width, height);
-    this->graph = g;
-    this->graph2 = g2;
-    }*/
 
 
   void CellularAutomata::step(void)
   {
-    /*for(unsigned x = 0; x < graph.width; x++) {
-      for(unsigned y = 0; y < graph.height; y++) {
-	calculate(x, y);
-      }
-      }*/
     graph = graph2;
   }
 
@@ -136,22 +127,36 @@ namespace CellularAutomata
 
 int main(void)
 {
-  CellularAutomata::CellularAutomata graph;
-  int i,j;
+  std::cout << "begin\n";
+  std::vector<unsigned> dimensions(3);
+  dimensions[0] = 25;
+  dimensions[1] = 25;
+  dimensions[2] = 25;
+  std::cout << "before init graph\n";
+  CellularAutomata::CellularAutomata graph(dimensions);
+  std::cout << "after init graph\n";
+  int i,j,k;
   ifstream input;
   
+  std::cout << "before load\n";
   input.open("points.txt");
-  //graph().load(input);
+  std::cout << "opened\n";
+  graph().load(input, ' ');
   input.close();
+  std::cout << "after load\n";
 
   //set<int> classes = graph().generate_classes();
   //printf("number of classes: %d\n", (int)classes.size());
   for(i=0;i<25;i++) {
     for(j=0;j<25;j++) {
-      CellularAutomata::Coord coord;
-      coord[0] = i;
-      coord[1] = j;
-      printf("%d  ", graph()(coord).get());
+      for(k=0;k<25;k++) {
+	CellularAutomata::Coord coord(3);
+	coord[0] = i;
+	coord[1] = j;
+	coord[2] = k;
+	printf("%d ", graph()(coord).get());
+      }
+      putchar('\n');
     }
     putchar('\n');
   }
