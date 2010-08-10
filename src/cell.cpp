@@ -2,9 +2,9 @@
 
 
 Cell::Cell(void)
-  : value(UNASSIGNED)
+  : value()
 {
-
+  value.bits = UNASSIGNED;
 }
 
 
@@ -16,11 +16,11 @@ Cell::~Cell(void)
 
 int Cell::get(void) const
 {
-  return value;
+  return value.bits;
 }
 
 
 void Cell::set(int val)
 {
-  value = val;
+  value.bits = val;
 }

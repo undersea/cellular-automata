@@ -24,12 +24,12 @@ namespace CellularAutomata
     Graph(void);
     Graph(Graph &orig);
     Graph(const Graph &orig);
-    Graph(const std::vector<unsigned> dimensions);
-    Graph(unsigned length) :dimensions(0) {dimensions[0] = length;}
+    Graph(const std::vector<unsigned short> dimensions);
+    Graph(unsigned short length) :dimensions(0) {dimensions[0] = length;}
     ~Graph(void);
 
-    const Cell &operator () (const Coord &coord) const;
-    Cell &operator () (const Coord &coord);
+    const Short &operator () (const Coord &coord) const;
+    Short &operator () (const Coord &coord);
 
     const int get(const Coord &coord) const;
     void set(const int val, const Coord &coord);
@@ -43,8 +43,8 @@ namespace CellularAutomata
     /* treat as a multidimensional array
      * eg grid[x][y] == grid[size/y+x] or grid[x][y][z] == grid[size/z/y+x]
      */
-    std::vector< Cell > grid;
-    std::vector<unsigned> dimensions;
+    std::vector< Short > grid;
+    std::vector<unsigned short> dimensions;
     std::set<unsigned> klasses;
   private:
   };

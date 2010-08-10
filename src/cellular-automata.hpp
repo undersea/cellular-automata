@@ -25,7 +25,7 @@ namespace CellularAutomata
   public:
     CellularAutomata(void);
     //    CellularAutomata(unsigned width, unsigned height);
-    CellularAutomata(const std::vector<unsigned> &dimensions);
+    CellularAutomata(const std::vector<unsigned short> &dimensions);
     ~CellularAutomata(void);
 
     //void init(unsigned width, unsigned height);

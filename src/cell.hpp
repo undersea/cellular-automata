@@ -5,6 +5,14 @@ enum {
   UNASSIGNED = 0
 };
 
+typedef struct
+{
+  char bits :7;
+
+  int get(void) const { return bits; }
+  void set(int val) { bits = val; }
+} Short;
+
 class Cell
 {
 public:
@@ -14,7 +22,7 @@ public:
   int get(void) const;
   void set(int val);
 protected:
-  int value;
+  Short value;
 private:
 };
 

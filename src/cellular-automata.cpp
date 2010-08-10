@@ -22,7 +22,7 @@ namespace CellularAutomata
   CellularAutomata::CellularAutomata(void)
   {}
 
-  CellularAutomata::CellularAutomata(const std::vector<unsigned> &dimensions)
+  CellularAutomata::CellularAutomata(const std::vector<unsigned short> &dimensions)
     : graph(dimensions), graph2(dimensions)
   {
 
@@ -128,7 +128,7 @@ namespace CellularAutomata
 int main(void)
 {
   std::cout << "begin\n";
-  std::vector<unsigned> dimensions(8);
+  std::vector<unsigned short> dimensions(8);
   dimensions[0] = 3;
   dimensions[1] = 10;
   dimensions[2] = 10;
@@ -141,7 +141,7 @@ int main(void)
   std::cout << "before init graph\n";
   CellularAutomata::CellularAutomata graph(dimensions);
   std::cout << "after init graph\n";
-  int i,j,k;
+  //int i,j,k;
   ifstream input;
   
   std::cout << "before load\n";

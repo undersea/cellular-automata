@@ -10,7 +10,7 @@ namespace CellularAutomata
   Graph::Graph(void)
     : grid(10000), dimensions(100, 100)
   {
-    std::cout << dimensions[0] << "x" << dimensions[1] << endl;
+    std::cout << dimensions[0] << "x" << dimensions[1] << std::endl;
   }
 
 
@@ -29,7 +29,7 @@ namespace CellularAutomata
   }
 
 
-  Graph::Graph(const std::vector<unsigned> dimensions)
+  Graph::Graph(const std::vector<unsigned short> dimensions)
     : grid(), dimensions(dimensions)
   {
     unsigned size = 1;
@@ -47,7 +47,7 @@ namespace CellularAutomata
   }
 
 
-  const Cell &Graph::operator () (const Coord &coord) const
+  const Short &Graph::operator () (const Coord &coord) const
   {
     unsigned pos = 0;
     unsigned i;
@@ -61,7 +61,7 @@ namespace CellularAutomata
   }
 
   
-  Cell &Graph::operator () (const Coord &coord)
+  Short &Graph::operator () (const Coord &coord)
   {
     unsigned pos = 0;
     unsigned i;
@@ -119,6 +119,8 @@ namespace CellularAutomata
 	
       }
       input >> value;
+      //Short val;
+      //val.bits = value;
       this->klasses.insert(value);
       (*this)(coord).set(value);
     }
