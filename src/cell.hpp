@@ -8,6 +8,9 @@ enum {
 typedef struct
 {
   char bits :7;
+  Coord coord;
+
+  Short(const Coord &coord) { this->coord = coord; }
 
   int get(void) const { return bits; }
   void set(int val) { bits = val; }
@@ -22,7 +25,7 @@ public:
   int get(void) const;
   void set(int val);
 protected:
-  Short value;
+  char bits :7;
 private:
 };
 

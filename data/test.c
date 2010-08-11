@@ -5,13 +5,15 @@
 
 int main(void)
 {
-  size_t al = 18446744073709551615;
+  size_t al = 3202412494;
   char *ptr = NULL;
+
+  al *= 10;
   while(ptr == NULL) {
     ptr = (char *)malloc(sizeof(char)*al);
     if(ptr == NULL) {
       //perror("could not assign memory");
-      al -= 10;
+      al -= 100000;
     }
   }
   printf("Max bytes that can be allocated are %lu +/- 10\n", al);
