@@ -24,6 +24,12 @@
 /data/test.c~
 /data/test.py
 /data/test.py~
+<<<<<<< HEAD
 /data/max_value
 /data/out.c
 /data/tmp.txt
+=======
+/data/print
+/data/print.c
+/data/print.c~
+>>>>>>> 6b67ca744299baa2db0d08c94a8e831c5c067d1a

@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <typeinfo>
+
 #include <algorithm>
 //#include <map>
 //#include <set>
@@ -55,6 +57,17 @@ namespace CellularAutomata
   }
 
 
+  void CellularAutomata::step(void)
+  {
+    Coord start(graph.dimensions.size());
+    for(unsigned i = 0; i < graph.dimensions.size(); i++) {
+      for(int j = 0; j < graph.dimensions[i]; j++) {
+	calculate(coord);
+      }
+    }
+  }
+
+
   /**
    * Using Von Neumann method of being influenced by the north, south, east and west.
    * Used to calculate the value of the grid cell at position (x, y) based upon the following rules
@@ -65,65 +78,44 @@ namespace CellularAutomata
    * rand({1,2}) : class 1 == class 2 neighbours
    * for the moment will not wrap the grid so ignore any x value < 0 or > width and y values < 0 or >  height.
    */
-  /*void CellularAutomata::calculate(unsigned x, unsigned y)
+  void CellularAutomata::calculate(const Coord &point)
   {
-    map<int, int> val;
-    find_best< pair<const int, int> > best;
-    std::set<int> classes = graph.generate_classes();
-    //3 above cell
-    if(y > 0) {
-      //    if(x > 0) {
-      //  val[graph(x-1,y-1).get()] += 1;
-      //}
-      val[graph(x,y-1).get()] += 1;
+    map<char, char> val;
+    find_best< pair<const char, char> > best;
 
-      //if(x < (graph.width - 1)) {
-      //  val[graph(x+1, y-1).get()] += 1;
-      //}
-    }
-    //left of cell
-    if(x > 0) {
-      val[graph(x-1, y).get()] += 1;
-    }
-    //right of cell
-    if(x < (graph.width - 1)) {
-      val[graph(x+1, y).get()] += 1;
-    }
-    //bottom 3
-    if(y < (graph.height - 1)) {
-      //if(x > 0) {
-      //  val[graph(x-1, y+1).get()] += 1;
-      //}
-      val[graph(x, y+1).get()] += 1;
-      //if(x < (graph.width - 1)) {
-      //  val[graph(x+1, y+1).get()] += 1;
-      //}
+    for(unsigned i = 0; i < point.size(); i++) {
+      for(int j = -1; j < 1; j+=2) {
+	Coord neighbour = point;
+	neighbour[i] += j;
+	val[graph(neighbour).get()]++;
+      }
     }
 
-
-    best = for_each(val.begin(), val.end(), find_best< pair<const int, int> >());
+    best = for_each(val.begin(), val.end(), find_best< pair<const char, char> >());
   
 
     if(best.even) {
       //randomly assign
-      int tmp = rand() % classes.size();
-      graph2(x, y).set(tmp);
-      printf("rand for {%d,%d} of %d\n", x, y, tmp);
+      Short tmp;
+      tmp.bits = rand() % graph.klasses.size();
+      graph2(point).set(tmp.bits);
     } else {
       if(best.best_value != 0) {
-	graph2(x, y).set(best.best_value);
-	//printf("set {%d, %d} to %d\n", x,y,best.best_value);
+	graph2(point).set(best.best_value);
       } else {
-	graph2(x, y).set(graph(x,y).get());
+	graph2(point).set(graph(point).get());
       }
     }
   }
-  */
+  
   template<class T> struct print : public unary_function<T, void>
   {
     void operator () (T x) { printf("%d, ", x); }
   };
 } // namespace CellularAutomata
+
+
+
 
 int main(void)
 {
@@ -156,7 +148,8 @@ int main(void)
   
   
   printf("classes:");
-  std::for_each(classes.begin(), classes.end(), CellularAutomata::print< unsigned >());
+  std::for_each(classes.begin(), classes.end(), 
+		CellularAutomata::print< unsigned >());
   putchar('\n');
  
 
