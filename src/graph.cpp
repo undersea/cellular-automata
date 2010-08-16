@@ -54,8 +54,13 @@ namespace CellularAutomata
     for(i = 0; i < coord.size() - 1; i++) {
       pos += coord[i] * dimensions[i];
     }
-
+    
     pos += coord[i];
+
+    while(grid.size() >= pos) {
+      pos--;
+    }
+
 
     return grid[pos];
   }
@@ -63,13 +68,17 @@ namespace CellularAutomata
   
   Short &Graph::operator () (const Coord &coord)
   {
-    unsigned pos = 0;
-    unsigned i;
-    for(i = 0; i < coord.size() - 1; i++) {
-      pos += coord[i] * dimensions[i];
+    //first get the x,y pos
+    unsigned pos = coord[0];
+    if(coord.size() > 1 && dimensions.size() > 1) {
+      pos += coord[1] * dimensions[1];
+    
+      if(coord.size() > 2 && dimensions.size() > 2) {
+	for(unsigned i = 2; i < coord.size(); i++) {
+	  pos *= coord[i];
+	}
+      }
     }
-
-    pos += coord[i];
 
     return grid[pos];
   }

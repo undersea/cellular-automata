@@ -20,7 +20,7 @@ namespace CellularAutomata
   {
   public:
     friend class CellularAutomata;
-
+    friend struct percentage;
     Graph(void);
     Graph(Graph &orig);
     Graph(const Graph &orig);

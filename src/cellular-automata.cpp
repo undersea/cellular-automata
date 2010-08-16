@@ -3,6 +3,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 #include <typeinfo>
 
@@ -25,6 +26,18 @@ namespace CellularAutomata
   {
     void operator () (T x) { printf("%d, ", x); }
   };
+
+
+  template<class U> struct progress_count : public unary_function<U, void>
+  {
+    progress_count(void) : count(0){}
+    void operator () (U x) { 
+      if(x.get()>0) {count++;} 
+      // printf("%d, ", x.get());
+    }
+    unsigned count;
+  };
+
 
   CellularAutomata::CellularAutomata(void)
   {}
@@ -59,21 +72,15 @@ namespace CellularAutomata
   void CellularAutomata::step(void)
   {
     Coord start(graph.dimensions.size());
-    std::for_each(start.begin(), start.end(), 
-		  print< unsigned >());
-    putchar('\n');
-    for(unsigned i = 0; i < graph.dimensions.size(); i++) {
-      for(int j = 0; j < graph.dimensions[i]; j++) {
-	calculate(start);
-	
-	std::for_each(start.begin(), start.end(), 
-		  print< unsigned >());
-	putchar('\n');
-	start[i]++;
-      }
-    }
+    set(start, 0);
+    graph = graph2;
   }
 
+
+  const bool CellularAutomata::full(void) const
+  {
+    return progress() == 100;
+  }
 
   /**
    * Using Von Neumann method of being influenced by the north, south, east and west.
@@ -123,12 +130,30 @@ namespace CellularAutomata
       return;
     } else {
       Coord point = coord;
-      
+      if(c_pos < coord.size() - 1) {
+	for(int i = 0; i < graph.dimensions[c_pos]; i++) {
+	  point[c_pos] = i;
+	  set(point, c_pos+1);
+	}
+      } else {
+	for(int i = 0; i < graph.dimensions[c_pos]; i++) {
+	  point[c_pos] = i;
+	  calculate(point);
+	}
+      }
     }
   }
 
 
-
+  const unsigned CellularAutomata::progress(void) const
+  {
+    progress_count<Short> p;
+    p = std::for_each(graph.grid.begin(), graph.grid.end(), progress_count< Short >());
+    printf("%u, %u = ", p.count, graph.grid.size());
+    double percent = (((double)p.count)/((double)graph.grid.size()))*100.0;
+    printf("%f ", percent);
+    return static_cast<unsigned>(round(percent));
+  }
  
 } // namespace CellularAutomata
 
@@ -138,12 +163,11 @@ namespace CellularAutomata
 int main(void)
 {
   std::cout << "begin\n";
-  std::vector<unsigned short> dimensions(4);
+  std::vector<unsigned short> dimensions(2);
   dimensions[0] = 80;
-  dimensions[1] = 45;
-  dimensions[2] = 70;
-  dimensions[3] = 26;
+  dimensions[1] = 50;
 
+ 
   std::cout << "before init graph\n";
   CellularAutomata::CellularAutomata graph(dimensions);
   std::cout << "after init graph\n";
@@ -152,9 +176,14 @@ int main(void)
   
   std::cout << "before load\n";
   input.open("data/iris2.data");
-  std::cout << "opened\n";
-  graph().load(input, ' ');
-  input.close();
+  if(input.good()) {
+    std::cout << "opened\n";
+    graph().load(input, ' ');
+    input.close();
+  } else {
+    perror("Failed to open file");
+    return 1;
+  }
   std::cout << "after load\n";
 
   const std::set<unsigned> classes = graph().generate_classes();
@@ -167,8 +196,27 @@ int main(void)
   putchar('\n');
   printf("Number of dimensions: %d\n", graph().get_number_dimensions());
 
-  graph.step();
+  unsigned steps = 0;
+  printf("is %d%% done\n", graph.progress());
+  while(!graph.full()) {
+    graph.step();
+    steps++;
+    if(steps % 1000 == 0) {
+      printf("been going for %u steps\n", steps);
+      printf("is %d%% done\n", graph.progress());
+    }
+  }
+  
+   for(int i = 0; i< 10;i++) {
+     graph.step();
+   }
 
+
+  CellularAutomata::Coord coord(2);
+  coord[0] = 0;
+  coord[1] = 0;
+
+  printf("Value at {0,0} is %d\n", graph()(coord).get());
   return 0;
 }
 
