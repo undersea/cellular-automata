@@ -1,32 +1,37 @@
 #ifndef CELL_HPP
 #define CELL_HPP
 
-enum {
-  UNASSIGNED = 0
-};
+#include "coord.hpp"
 
-typedef struct
+namespace CellularAutomata
 {
-  char bits :7;
-  Coord coord;
 
-  Short(const Coord &coord) { this->coord = coord; }
+  enum {
+    UNASSIGNED = 0
+  };
 
-  int get(void) const { return bits; }
-  void set(int val) { bits = val; }
-} Short;
+  typedef struct Short
+  {
+    char bits :7;
+    Coord coord;
 
-class Cell
-{
-public:
-  Cell(void);
-  ~Cell(void);
+    Short(const Coord &coord) { this->coord = coord; }
 
-  int get(void) const;
-  void set(int val);
-protected:
-  char bits :7;
-private:
-};
+    int get(void) const { return bits; }
+    void set(int val) { bits = val; }
+  } Short;
 
+  class Cell
+  {
+  public:
+    Cell(void);
+    ~Cell(void);
+
+    int get(void) const;
+    void set(int val);
+  protected:
+    char bits :7;
+  private:
+  };
+} // CellularAutomata
 #endif //CELL_HPP
