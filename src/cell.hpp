@@ -16,6 +16,7 @@ namespace CellularAutomata
     Coord coord;
 
     Short(const Coord &coord) { this->coord = coord; }
+    Short(void) {}
 
     int get(void) const { return bits; }
     void set(int val) { bits = val; }

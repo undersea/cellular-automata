@@ -125,5 +125,9 @@ namespace CellularAutomata
       (*this)(coord).set(value);
     }
   }
-
+  
+  const unsigned Graph::get_number_dimensions(void) const
+  {
+    return dimensions.size();
+  }
 }

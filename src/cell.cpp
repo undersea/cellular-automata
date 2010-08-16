@@ -1,10 +1,13 @@
 #include "cell.hpp"
 
 
-Cell::Cell(void)
-  : value()
+namespace CellularAutomata
 {
-  value.bits = UNASSIGNED;
+
+Cell::Cell(void)
+  : bits(UNASSIGNED)
+{
+
 }
 
 
@@ -16,11 +19,13 @@ Cell::~Cell(void)
 
 int Cell::get(void) const
 {
-  return value.bits;
+  return bits;
 }
 
 
 void Cell::set(int val)
 {
-  value.bits = val;
+  bits = val;
 }
+
+} //CellularAutomata
