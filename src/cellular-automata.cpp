@@ -21,6 +21,11 @@ using namespace std;
 
 namespace CellularAutomata
 {
+  template<class T> struct print : public unary_function<T, void>
+  {
+    void operator () (T x) { printf("%d, ", x); }
+  };
+
   CellularAutomata::CellularAutomata(void)
   {}
 
@@ -54,10 +59,17 @@ namespace CellularAutomata
   void CellularAutomata::step(void)
   {
     Coord start(graph.dimensions.size());
+    std::for_each(start.begin(), start.end(), 
+		  print< unsigned >());
+    putchar('\n');
     for(unsigned i = 0; i < graph.dimensions.size(); i++) {
       for(int j = 0; j < graph.dimensions[i]; j++) {
-	Coord coord;
-	calculate(coord);
+	calculate(start);
+	
+	std::for_each(start.begin(), start.end(), 
+		  print< unsigned >());
+	putchar('\n');
+	start[i]++;
       }
     }
   }
@@ -75,20 +87,21 @@ namespace CellularAutomata
    */
   void CellularAutomata::calculate(const Coord &point)
   {
-    map<char, char> val;
-    find_best< pair<const char, char> > best;
+    std::map<char, char> val;
+    find_best< std::pair<const char, char> > best;
 
     for(unsigned i = 0; i < point.size(); i++) {
       for(int j = -1; j < 1; j+=2) {
 	Coord neighbour = point;
 	neighbour[i] += j;
-	val[graph(neighbour).get()]++;
+	if(neighbour[i] >= 0 && neighbour[i] <= graph.dimensions[i]) {
+	   val[graph(neighbour).get()]++;
+	}
       }
     }
 
-    best = for_each(val.begin(), val.end(), find_best< pair<const char, char> >());
+    best = std::for_each(val.begin(), val.end(), find_best< std::pair<const char, char> >());
   
-
     if(best.even) {
       //randomly assign
       Short tmp(point);
@@ -103,10 +116,20 @@ namespace CellularAutomata
     }
   }
   
-  template<class T> struct print : public unary_function<T, void>
+
+  void CellularAutomata::set(const Coord &coord, const unsigned c_pos)
   {
-    void operator () (T x) { printf("%d, ", x); }
-  };
+    if(c_pos >= coord.size()) {
+      return;
+    } else {
+      Coord point = coord;
+      
+    }
+  }
+
+
+
+ 
 } // namespace CellularAutomata
 
 
@@ -115,16 +138,12 @@ namespace CellularAutomata
 int main(void)
 {
   std::cout << "begin\n";
-  std::vector<unsigned short> dimensions(8);
-  dimensions[0] = 3;
-  dimensions[1] = 10;
-  dimensions[2] = 10;
-  dimensions[3] = 15;
-  dimensions[4] = 30;
-  dimensions[5] = 16;
-  dimensions[6] = 10;
-  dimensions[7] = 11;
-  dimensions[8] = 30;
+  std::vector<unsigned short> dimensions(4);
+  dimensions[0] = 80;
+  dimensions[1] = 45;
+  dimensions[2] = 70;
+  dimensions[3] = 26;
+
   std::cout << "before init graph\n";
   CellularAutomata::CellularAutomata graph(dimensions);
   std::cout << "after init graph\n";
@@ -132,7 +151,7 @@ int main(void)
   ifstream input;
   
   std::cout << "before load\n";
-  input.open("data/abalone2.data");
+  input.open("data/iris2.data");
   std::cout << "opened\n";
   graph().load(input, ' ');
   input.close();
@@ -142,11 +161,13 @@ int main(void)
   printf("number of classes: %d\n", (unsigned)classes.size());
   
   
-  printf("classes:");
+  printf("classes: ");
   std::for_each(classes.begin(), classes.end(), 
 		CellularAutomata::print< unsigned >());
   putchar('\n');
- 
+  printf("Number of dimensions: %d\n", graph().get_number_dimensions());
+
+  graph.step();
 
   return 0;
 }

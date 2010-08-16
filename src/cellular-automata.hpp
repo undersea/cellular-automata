@@ -37,13 +37,13 @@ namespace CellularAutomata
 
     Graph &operator () (void);
     //Cell  &operator (const Coord &coord);
-    //void step(void);
   protected:
     void calculate(const Coord &coord);
   
     Graph graph;
     Graph graph2;
   private:
+    void set(const Coord &coord, const unsigned c_pos);
   };
 
 } // namespace CellularAutomata

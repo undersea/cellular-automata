@@ -1,15 +1,14 @@
 import csv
 
 
-sex = {'I':0, 'M':1, 'F':2 }
-with open('abalone2.data', 'w') as data:
-    abareader = csv.reader(open('abalone.data'))
+name = {'Iris-setosa':1, 'Iris-versicolor':2, 'Iris-virginica':3 }
+with open('iris2.data', 'w') as data:
+    abareader = csv.reader(open('iris.data'))
     for row in abareader:
         tmp = []
-        print >>data, sex[row[0]],
-        for x in row[1:8]:
+        for x in row[0:4]:
             print >>data, "%2d"%(int(round(float(x)*10))),
-        print >>data, "%2d" % (int(row[8]))
+        print >>data, "%d" % (int(name[row[4]]))
         
 #    print tmp
 

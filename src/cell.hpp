@@ -5,32 +5,35 @@
 
 namespace CellularAutomata
 {
-enum {
-  UNASSIGNED = 0
-};
 
-typedef struct Short
-{
-  char bits :7;
-  Coord coord;
+  enum {
+    UNASSIGNED = 0
+  };
 
-  Short(const Coord &coord) { this->coord = coord; }
+  typedef struct Short
+  {
+    char bits :7;
+    Coord coord;
 
-  int get(void) const { return bits; }
-  void set(int val) { bits = val; }
-} Short;
+    Short(const Coord &coord) { this->coord = coord; }
+    Short(void) {}
 
-class Cell
-{
-public:
-  Cell(void);
-  ~Cell(void);
+    int get(void) const { return bits; }
+    void set(int val) { bits = val; }
+  } Short;
 
-  int get(void) const;
-  void set(int val);
-protected:
-  char bits :7;
-private:
-};
-}
+
+  class Cell
+  {
+  public:
+    Cell(void);
+    ~Cell(void);
+
+    int get(void) const;
+    void set(int val);
+  protected:
+    char bits :7;
+  private:
+  };
+} // CellularAutomata
 #endif //CELL_HPP
