@@ -34,12 +34,6 @@ namespace CellularAutomata
   {}
 
 
-
-  void CellularAutomata::step(void)
-  {
-    graph = graph2;
-  }
-
   Graph CellularAutomata::get(void) const
   {
     return graph;
@@ -62,6 +56,7 @@ namespace CellularAutomata
     Coord start(graph.dimensions.size());
     for(unsigned i = 0; i < graph.dimensions.size(); i++) {
       for(int j = 0; j < graph.dimensions[i]; j++) {
+	Coord coord;
 	calculate(coord);
       }
     }
@@ -96,7 +91,7 @@ namespace CellularAutomata
 
     if(best.even) {
       //randomly assign
-      Short tmp;
+      Short tmp(point);
       tmp.bits = rand() % graph.klasses.size();
       graph2(point).set(tmp.bits);
     } else {

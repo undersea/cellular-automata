@@ -1,11 +1,15 @@
 #ifndef CELL_HPP
 #define CELL_HPP
 
+#include "coord.hpp"
+
+namespace CellularAutomata
+{
 enum {
   UNASSIGNED = 0
 };
 
-typedef struct
+typedef struct Short
 {
   char bits :7;
   Coord coord;
@@ -28,5 +32,5 @@ protected:
   char bits :7;
 private:
 };
-
+}
 #endif //CELL_HPP

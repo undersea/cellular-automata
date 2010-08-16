@@ -37,7 +37,7 @@ namespace CellularAutomata
 
     Graph &operator () (void);
     //Cell  &operator (const Coord &coord);
-    void step(void);
+    //void step(void);
   protected:
     void calculate(const Coord &coord);
   
