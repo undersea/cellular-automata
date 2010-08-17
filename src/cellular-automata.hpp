@@ -5,14 +5,21 @@
 #include "cell.hpp"
 #include "coord.hpp"
 
+
+
 template<class T> struct find_best : public unary_function<T, void>
 {
+  find_best(void) : best_value(0), total(0), even(false) 
+  {
+    
+  }
   void operator() (T x){
     even &= total == x.second;
     best_value = x.second > total && x.first != 0 ? x.first : best_value;
+
     total = best_value == x.first && x.first != 0 ? x.second : total;
   }
-  int best_value;
+  unsigned best_value;
   int total;
   bool even;
 };
@@ -39,7 +46,7 @@ namespace CellularAutomata
     //Cell  &operator (const Coord &coord);
     const bool full(void) const;
     const unsigned progress(void) const;
-  protected:
+    //  protected:
     void calculate(const Coord &coord);
   
     Graph graph;

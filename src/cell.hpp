@@ -12,15 +12,15 @@ namespace CellularAutomata
 
   typedef struct Short
   {
-    char bits :7;
+    unsigned short bits :7;
     bool assigned;
     Coord coord;
 
     Short(const Coord &coord) { this->coord = coord; bits=0; assigned=false;}
     Short(void) {bits=0; assigned=false;}
 
-    int get(void) const { return bits; }
-    void set(int val) { bits = val; assigned=bits==0?false:true;}
+    unsigned short get(void) const { return bits; }
+    void set(unsigned short val) { bits = val; assigned=bits==0?false:true;}
   } Short;
 
 
