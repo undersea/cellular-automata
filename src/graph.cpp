@@ -1,12 +1,25 @@
 #include <iostream>
 
+#include <algorithm>
 
-#include <stdlib.h>
+#include <cstdlib>
+#include <cstdio>
+
+//#define DEBUG
 
 #include "graph.hpp"
 
 namespace CellularAutomata
 {
+  template<class U> struct multiple_total : public unary_function<U, void>
+  {
+    multiple_total(void) : total(1){}
+    void operator () (U x) { 
+      total*=x;
+    }
+    unsigned total;
+  };
+
   Graph::Graph(void)
     : grid(10000), dimensions(100, 100)
   {
@@ -49,37 +62,37 @@ namespace CellularAutomata
 
   const Short &Graph::operator () (const Coord &coord) const
   {
-    unsigned pos = 0;
-    unsigned i;
-    for(i = 0; i < coord.size() - 1; i++) {
-      pos += coord[i] * dimensions[i];
+    //first get the x,y pos
+    unsigned pos = coord[0] + coord[1] * dimensions[0];
+    unsigned multiple = dimensions[0]*dimensions[1];
+    if(coord.size() > 2 && dimensions.size() > 2) {
+      for(unsigned i = 2; i < coord.size(); i++) {
+	pos += coord[i] * multiple;
+	multiple *= dimensions[i];
+      }
     }
-    
-    pos += coord[i];
-
-    while(grid.size() >= pos) {
-      pos--;
-    }
-
-
+#ifdef DEBUG
+    printf("pos = %u\n", pos);
+#endif
     return grid[pos];
   }
 
   
+  
   Short &Graph::operator () (const Coord &coord)
   {
     //first get the x,y pos
-    unsigned pos = coord[0];
-    if(coord.size() > 1 && dimensions.size() > 1) {
-      pos += coord[1] * dimensions[1];
-    
-      if(coord.size() > 2 && dimensions.size() > 2) {
-	for(unsigned i = 2; i < coord.size(); i++) {
-	  pos *= coord[i];
-	}
+    unsigned pos = coord[0] + coord[1] * dimensions[0];
+    unsigned multiple = dimensions[0]*dimensions[1];
+    if(coord.size() > 2 && dimensions.size() > 2) {
+      for(unsigned i = 2; i < coord.size(); i++) {
+	pos += coord[i] * multiple;
+	multiple *= dimensions[i];
       }
     }
-
+#ifdef DEBUG
+    printf("pos = %u\n", pos);
+#endif
     return grid[pos];
   }
 
@@ -138,5 +151,11 @@ namespace CellularAutomata
   const unsigned Graph::get_number_dimensions(void) const
   {
     return dimensions.size();
+  }
+
+
+  const std::vector< Short > Graph::get_grid(void) const
+  {
+    return grid;
   }
 }

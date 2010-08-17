@@ -39,6 +39,8 @@ namespace CellularAutomata
 
     const std::set<unsigned> generate_classes(void) const;
     void load(std::istream &input, char delimeter=',');
+
+    const std::vector< Short > get_grid(void) const;
   protected:
     /* treat as a multidimensional array
      * eg grid[x][y] == grid[size/y+x] or grid[x][y][z] == grid[size/z/y+x]

@@ -13,6 +13,8 @@
 
 #include <fstream>
 
+//#define DEBUG
+
 using namespace std;
 
 #include "cell.hpp"
@@ -24,7 +26,25 @@ namespace CellularAutomata
 {
   template<class T> struct print : public unary_function<T, void>
   {
-    void operator () (T x) { printf("%d, ", x); }
+    void operator () (T x) {
+	printf("%d ", x);
+    }
+  };
+
+
+  template<class T> struct print_Short : public unary_function<T, void>
+  {
+    print_Short(void) : count(0) {}
+    void operator () (T x) {
+      if(typeid(x) == typeid(Short)) {
+	try {
+	  printf("%u: %u, ", count++, x.bits);
+	} catch(std::exception e) { 
+	  std::cerr << e.what();
+	}
+      }
+    }
+    unsigned count;
   };
 
 
@@ -32,7 +52,7 @@ namespace CellularAutomata
   {
     progress_count(void) : count(0){}
     void operator () (U x) { 
-      if(x.get()>0) {count++;} 
+      if(x.get()!=0) {count++;} 
       // printf("%d, ", x.get());
     }
     unsigned count;
@@ -94,20 +114,27 @@ namespace CellularAutomata
    */
   void CellularAutomata::calculate(const Coord &point)
   {
-    std::map<char, char> val;
-    find_best< std::pair<const char, char> > best;
+    std::map<unsigned short, unsigned short> val;
+    find_best< std::pair<const unsigned short, unsigned short> > best;
 
     for(unsigned i = 0; i < point.size(); i++) {
-      for(int j = -1; j < 1; j+=2) {
-	Coord neighbour = point;
+      for(int j = -1; j < 2; j+=2) {
+	Coord neighbour(point.size());
+	neighbour = point;
 	neighbour[i] += j;
+#ifdef DEBUG
+	puts("calculate");
+	std::for_each(neighbour.begin(), neighbour.end(), 
+		      print< unsigned >());
+	putchar('\n');
+#endif
 	if(neighbour[i] >= 0 && neighbour[i] <= graph.dimensions[i]) {
 	   val[graph(neighbour).get()]++;
 	}
       }
     }
 
-    best = std::for_each(val.begin(), val.end(), find_best< std::pair<const char, char> >());
+    best = std::for_each(val.begin(), val.end(), find_best< std::pair<const unsigned short, unsigned short> >());
   
     if(best.even) {
       //randomly assign
@@ -149,9 +176,11 @@ namespace CellularAutomata
   {
     progress_count<Short> p;
     p = std::for_each(graph.grid.begin(), graph.grid.end(), progress_count< Short >());
-    printf("%u, %u = ", p.count, graph.grid.size());
+    
     double percent = (((double)p.count)/((double)graph.grid.size()))*100.0;
-    printf("%f ", percent);
+#ifdef DEBUG
+    printf("progress: %u/%u=%f%%\n", p.count, (unsigned)graph.grid.size(), percent);
+#endif
     return static_cast<unsigned>(round(percent));
   }
  
@@ -163,9 +192,10 @@ namespace CellularAutomata
 int main(void)
 {
   std::cout << "begin\n";
-  std::vector<unsigned short> dimensions(2);
-  dimensions[0] = 80;
-  dimensions[1] = 50;
+  std::vector<unsigned short> dimensions(3);
+  dimensions[0] = 10;
+  dimensions[1] = 10;
+  dimensions[2] = 10;
 
  
   std::cout << "before init graph\n";
@@ -175,7 +205,8 @@ int main(void)
   ifstream input;
   
   std::cout << "before load\n";
-  input.open("data/iris2.data");
+  //input.open("data/iris2.data");
+  input.open("points.txt");
   if(input.good()) {
     std::cout << "opened\n";
     graph().load(input, ' ');
@@ -192,31 +223,71 @@ int main(void)
   
   printf("classes: ");
   std::for_each(classes.begin(), classes.end(), 
-		CellularAutomata::print< unsigned >());
+		CellularAutomata::print< unsigned int >());
   putchar('\n');
   printf("Number of dimensions: %d\n", graph().get_number_dimensions());
-
-  unsigned steps = 0;
-  printf("is %d%% done\n", graph.progress());
-  while(!graph.full()) {
+  
+  
+  printf("%d%% done\n", graph.progress());
+  for(unsigned steps = 0; steps < 1000 && !graph.full(); steps++) {
     graph.step();
-    steps++;
-    if(steps % 1000 == 0) {
+    if(steps % 100 == 0) {
       printf("been going for %u steps\n", steps);
-      printf("is %d%% done\n", graph.progress());
+      printf("%d%% done\n", graph.progress());
     }
   }
+  printf("finished %d%% done\n", graph.progress());
   
-   for(int i = 0; i< 10;i++) {
-     graph.step();
-   }
+  
+  for(int i = 0; i< 10;i++) {
+    graph.step();
+  }
+  
 
 
-  CellularAutomata::Coord coord(2);
-  coord[0] = 0;
-  coord[1] = 0;
+  
+  CellularAutomata::Coord coord(3);
+  // coord[0] = 79;
+  // coord[1] = 49;
+  // coord[2] = 69;
+  // graph.calculate(coord);
 
-  printf("Value at {0,0} is %d\n", graph()(coord).get());
+  // coord[0] = 0;
+  // coord[1] = 0;
+  // coord[2] = 0;
+  // graph.calculate(coord);
+
+
+  // coord[0] = 9;
+  // coord[1] = 9;
+  // coord[2] = 9;
+  // graph.calculate(coord);
+
+
+
+  for(unsigned k = 0; k < 10; k++) {
+    coord[2]=k;
+    for(unsigned i = 0; i < 10; i++) {
+      coord[1]=i;
+      for(unsigned j = 0; j < 10; j++) {
+  	coord[0]=j;
+  	printf("%3d ", graph()(coord).get());
+      }
+      putchar('\n');
+    }
+    //putchar('\n');
+    getchar();
+  }
+
+  // std::vector<CellularAutomata::Short> grid = graph().get_grid();
+
+  // std::for_each(grid.begin(), grid.end(), 
+  // 		CellularAutomata::print_Short< CellularAutomata::Short >());
+  // putchar('\n');
+
+  
+  //printf("size is %d\n", 80*50*70);
+
   return 0;
 }
 
