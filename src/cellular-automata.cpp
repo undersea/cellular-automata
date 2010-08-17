@@ -176,15 +176,11 @@ namespace CellularAutomata
   {
     progress_count<Short> p;
     p = std::for_each(graph.grid.begin(), graph.grid.end(), progress_count< Short >());
-<<<<<<< HEAD
-    double percent = (((double)p.count)/((double)graph.grid.size()))*100.0;
-=======
     
     double percent = (((double)p.count)/((double)graph.grid.size()))*100.0;
 #ifdef DEBUG
     printf("progress: %u/%u=%f%%\n", p.count, (unsigned)graph.grid.size(), percent);
 #endif
->>>>>>> c2bfc301583725cbbd09319bf0df39bd723e4c93
     return static_cast<unsigned>(round(percent));
   }
  
