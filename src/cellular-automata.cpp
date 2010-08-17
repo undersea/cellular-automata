@@ -123,12 +123,12 @@ namespace CellularAutomata
 	neighbour = point;
 	neighbour[i] += j;
 #ifdef DEBUG
-/	puts("calculate");
+	puts("calculate");
 	std::for_each(neighbour.begin(), neighbour.end(), 
 		      print< unsigned >());
 	putchar('\n');
 #endif
-	if(neighbour[i] >= 0 && neighbour[i] <= graph.dimensions[i]) {
+	if(neighbour[i] >= 0 && neighbour[i] < graph.dimensions[i]) {
 	   val[graph(neighbour).get()]++;
 	}
       }
@@ -204,11 +204,11 @@ bool is_bool(bool tmp)
 int main(void)
 {
   std::cout << "begin\n";
-  std::vector<unsigned short> dimensions(3);
+  std::vector<unsigned short> dimensions(4);
   dimensions[0] = 80;
   dimensions[1] = 45;
   dimensions[2] = 70;
-  //dimensions[3] = 26;
+  dimensions[3] = 26;
  
   std::cout << "before init graph\n";
   CellularAutomata::CellularAutomata graph(dimensions);
@@ -261,7 +261,7 @@ int main(void)
   
   std::cout << "before load\n";
   input2.open("data/iris_test.data");
-  CellularAutomata::Coord coord(3);
+  CellularAutomata::Coord coord(4);
   std::vector<bool> results;
   while(!input2.eof()) {
     short tmp = 0;
