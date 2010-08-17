@@ -44,9 +44,10 @@ namespace CellularAutomata
 
     Graph &operator () (void);
     //Cell  &operator (const Coord &coord);
+
     const bool full(void) const;
     const unsigned progress(void) const;
-    //  protected:
+  protected:
     void calculate(const Coord &coord);
   
     Graph graph;

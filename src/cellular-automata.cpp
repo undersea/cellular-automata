@@ -13,7 +13,7 @@
 
 #include <fstream>
 
-//#define DEBUG
+//#define DEBUG2
 
 using namespace std;
 
@@ -123,7 +123,7 @@ namespace CellularAutomata
 	neighbour = point;
 	neighbour[i] += j;
 #ifdef DEBUG
-	puts("calculate");
+/	puts("calculate");
 	std::for_each(neighbour.begin(), neighbour.end(), 
 		      print< unsigned >());
 	putchar('\n');
@@ -151,8 +151,17 @@ namespace CellularAutomata
   }
   
 
+  /**
+   * CellularAutomata::set
+   */
+
   void CellularAutomata::set(const Coord &coord, const unsigned c_pos)
   {
+#ifdef DEBUG2
+    std::for_each(coord.begin(), coord.end(), 
+		  print< int >());
+    putchar('\n');
+#endif
     if(c_pos >= coord.size()) {
       return;
     } else {
@@ -179,7 +188,7 @@ namespace CellularAutomata
     
     double percent = (((double)p.count)/((double)graph.grid.size()))*100.0;
 #ifdef DEBUG
-    printf("progress: %u/%u=%f%%\n", p.count, (unsigned)graph.grid.size(), percent);
+    //printf("progress: %u/%u=%f%%\n", p.count, (unsigned)graph.grid.size(), percent);
 #endif
     return static_cast<unsigned>(round(percent));
   }
@@ -187,16 +196,19 @@ namespace CellularAutomata
 } // namespace CellularAutomata
 
 
-
+bool is_bool(bool tmp)
+{
+  return tmp;
+}
 
 int main(void)
 {
   std::cout << "begin\n";
   std::vector<unsigned short> dimensions(3);
-  dimensions[0] = 10;
-  dimensions[1] = 10;
-  dimensions[2] = 10;
-
+  dimensions[0] = 80;
+  dimensions[1] = 45;
+  dimensions[2] = 70;
+  //dimensions[3] = 26;
  
   std::cout << "before init graph\n";
   CellularAutomata::CellularAutomata graph(dimensions);
@@ -205,8 +217,8 @@ int main(void)
   ifstream input;
   
   std::cout << "before load\n";
-  //input.open("data/iris2.data");
-  input.open("points.txt");
+  input.open("data/iris_train.data");
+  //input.open("points.txt");
   if(input.good()) {
     std::cout << "opened\n";
     graph().load(input, ' ');
@@ -231,7 +243,7 @@ int main(void)
   printf("%d%% done\n", graph.progress());
   for(unsigned steps = 0; steps < 1000 && !graph.full(); steps++) {
     graph.step();
-    if(steps % 100 == 0) {
+    if(steps % 5 == 0) {
       printf("been going for %u steps\n", steps);
       printf("%d%% done\n", graph.progress());
     }
@@ -245,48 +257,25 @@ int main(void)
   
 
 
+  ifstream input2;
   
+  std::cout << "before load\n";
+  input2.open("data/iris_test.data");
   CellularAutomata::Coord coord(3);
-  // coord[0] = 79;
-  // coord[1] = 49;
-  // coord[2] = 69;
-  // graph.calculate(coord);
-
-  // coord[0] = 0;
-  // coord[1] = 0;
-  // coord[2] = 0;
-  // graph.calculate(coord);
-
-
-  // coord[0] = 9;
-  // coord[1] = 9;
-  // coord[2] = 9;
-  // graph.calculate(coord);
-
-
-
-  for(unsigned k = 0; k < 10; k++) {
-    coord[2]=k;
-    for(unsigned i = 0; i < 10; i++) {
-      coord[1]=i;
-      for(unsigned j = 0; j < 10; j++) {
-  	coord[0]=j;
-  	printf("%3d ", graph()(coord).get());
-      }
-      putchar('\n');
+  std::vector<bool> results;
+  while(!input2.eof()) {
+    short tmp = 0;
+    for(unsigned i =0; i < coord.size(); i++) {
+      input2 >> tmp;
+      coord[i] = tmp;
     }
-    //putchar('\n');
-    getchar();
+    input2 >> tmp;
+    results.push_back(graph().get(coord) == tmp);
   }
 
-  // std::vector<CellularAutomata::Short> grid = graph().get_grid();
+  int number = (int) std::count_if(results.begin(), results.end(), is_bool);
 
-  // std::for_each(grid.begin(), grid.end(), 
-  // 		CellularAutomata::print_Short< CellularAutomata::Short >());
-  // putchar('\n');
-
-  
-  //printf("size is %d\n", 80*50*70);
+  printf("passed %d / %u\n", number, (unsigned)results.size());
 
   return 0;
 }

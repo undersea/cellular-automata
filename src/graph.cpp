@@ -125,6 +125,8 @@ namespace CellularAutomata
     return klasses;
   }
 
+
+
   void Graph::load(std::istream &input, char delimeter)
   {
     while(!input.eof()) {
