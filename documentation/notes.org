@@ -2,4 +2,5 @@
 * Memory problems
 ** My current solution requires to much memory
    For each attribute I assign a dimension, so if there are 8 attributes with a max of 1000, then the axis for this attribute will be will 100 in length.
-   This leads to a solution of 1000^8 = 1,000,000,000,000,000,000,000,000 which is to large and on most systems will run it out of memory.
+   This leads to a solution of 1000^8 = 1,000,000,000,000,000,000,000,000 which is to large and on most systems will run it out of
+* Seg faults if number of dimensions greater than 4
