@@ -181,6 +181,9 @@ namespace CellularAutomata
   }
 
 
+  /**
+   * Returns a value from 0 to 100, representing the number of cells filled with a values other than 0, which is in the form of a percentage
+   */
   const unsigned CellularAutomata::progress(void) const
   {
     progress_count<Short> p;
@@ -188,7 +191,7 @@ namespace CellularAutomata
     
     double percent = (((double)p.count)/((double)graph.grid.size()))*100.0;
 #ifdef DEBUG
-    //printf("progress: %u/%u=%f%%\n", p.count, (unsigned)graph.grid.size(), percent);
+    printf("progress: %u/%u=%f%%\n", p.count, (unsigned)graph.grid.size(), percent);
 #endif
     return static_cast<unsigned>(round(percent));
   }
@@ -201,6 +204,8 @@ bool is_bool(bool tmp)
   return tmp;
 }
 
+
+#ifndef TESTING
 int main(void)
 {
   std::cout << "begin\n";
@@ -279,4 +284,4 @@ int main(void)
 
   return 0;
 }
-
+#endif //TESTING
