@@ -4,3 +4,7 @@
 * What are its strengths and weaknesses as a classifier
 * How do they do it
 * What they actually implemented (2d)
+* Multidimensional data mining (> 2d)
+** Grid definition
+** Grid size
+** Convergence
