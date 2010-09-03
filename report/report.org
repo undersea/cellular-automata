@@ -1,10 +1,23 @@
-
-* Using Cellular Automata as a classifier
 * What is cellular automata (brief as possible)
+* Using Cellular Automata as a classifier
+** Explore the use of cellular automata as a means of data mining, specifically classification.
+** Gives resonable generalisation behaviour as an emergent property
 * What are its strengths and weaknesses as a classifier
+** Low bias
+** effective general classification, similar to those produced by complex data mining models, through the collective behaviour of simple cells
+** makes pure local decisions based upon information from only its immediate neighbours
+** Uses little data
+** Is robust in the face of noise
 * How do they do it
-* What they actually implemented (2d)
+** 
+* Results from what they actually implemented (2d)
 * Multidimensional data mining (> 2d)
 ** Grid definition
 ** Grid size
 ** Convergence
+* Related work
+* Discussion
+
+
+* Notes
+** 
