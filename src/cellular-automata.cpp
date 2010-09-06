@@ -264,16 +264,25 @@ int main(void)
   std::cout << "before load\n";
   // input2.open("data/iris_test.data");
   input2.open("data/points_test.data");
-  CellularAutomata::Coord coord(4);
+  CellularAutomata::Coord coord(2);
   std::vector<bool> results;
+  unsigned count = 0;
   while(!input2.eof()) {
     short tmp = 0;
+    count++;
     for(unsigned i =0; i < coord.size(); i++) {
       input2 >> tmp;
+      if(input2.eof()) {
+	break;
+      }
       coord[i] = tmp;
     }
     input2 >> tmp;
+    if(input2.eof()) {
+      break;
+    }
     results.push_back(graph().get(coord) == tmp);
+    //printf("(%u, %u) = %d == %d\n", coord[0], coord[1], tmp, graph().get(coord) == tmp);
   }
 
   int number = (int) std::count_if(results.begin(), results.end(), is_bool);
