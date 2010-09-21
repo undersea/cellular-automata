@@ -21,9 +21,10 @@
 ** CA uses a simple voting system locally that reduces entropy
 *** Sets the cells value according to the values of its neighbourhood, majority wins
 *** Uses Von Neumann neighbourhood 
-**** as is linear in number of dimensions of the namespace
+**** as is linear in number of dimensions of the namespace (for each dimension you get 2 neighbours)
 **** scales well as a result
      [[./neighbours_per_dimension.svg]]
+
 * Results from what they actually implemented (2d)
 * Multidimensional data mining (> 2d)
 ** Grid definition
