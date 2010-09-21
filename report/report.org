@@ -9,7 +9,21 @@
 ** Uses little data
 ** Is robust in the face of noise
 * How do they do it
-** 
+** Instance based learning
+** Cells represent portions of instance space
+** organised and connected according to attribute value ranges
+*** These being things like x and y vectors with x representing say height and y representing weight
+*** The values must be in form of integers otherwise can't be mapped into a vector space
+** Instance space in form of a multidimensional grid
+** Grid is seeded with training data
+** CA is run until convergence
+*** Organise themselves into regions of similar class assignemt
+** CA uses a simple voting system locally that reduces entropy
+*** Sets the cells value according to the values of its neighbourhood, majority wins
+*** Uses Von Neumann neighbourhood 
+**** as is linear in number of dimensions of the namespace
+**** scales well as a result
+     [[./neighbours_per_dimension.svg]]
 * Results from what they actually implemented (2d)
 * Multidimensional data mining (> 2d)
 ** Grid definition
