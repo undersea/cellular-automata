@@ -20,12 +20,25 @@
 *** Organise themselves into regions of similar class assignemt
 ** CA uses a simple voting system locally that reduces entropy
 *** Sets the cells value according to the values of its neighbourhood, majority wins
+    - If the grid is a 2d grid then the cell has 4 neighbours and 3 of
+      its neigbours are of a value 2 then the value of this cell gets
+      changed to 2
 *** Uses Von Neumann neighbourhood 
 **** as is linear in number of dimensions of the namespace (for each dimension you get 2 neighbours)
 **** scales well as a result
-     [[./neighbours_per_dimension.svg]]
-
-* Results from what they actually implemented (2d)
+#+ATTR_LaTeX: width=30em
+   [[./neighbours_per_dimension.png]]
+**** Is a stable rule in that once a cell value has been set it will not change
+**** The global effect of the update rule is that each cell in the grid becomes assigned with /the class of the nearest initial point as measured by Manhattan distance/
+#+ATTR_LaTeX: width=10em
+     [[./manhattan_distance_influence.png]]
+**** The Manhattan effect stems from the fact that each cells influence speads out from itself in 2 dimensions.
+**** 
+* Quantitive Experiment in 2d
+** test on 2d geometric patterns
+** each pattern generated in a square 2d plane
+** grid 81x81 = 6561 cells
+** 2 class problem created from each pattern
 * Multidimensional data mining (> 2d)
 ** Grid definition
 ** Grid size
@@ -33,6 +46,3 @@
 * Related work
 * Discussion
 
-
-* Notes
-** 
