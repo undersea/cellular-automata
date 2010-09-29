@@ -46,3 +46,22 @@
 * Related work
 * Discussion
 
+#+source: square(x)
+#+begin_src python
+x=3
+return x*x
+#+end_src
+
+
+#+call: square(x=6)
+
+
+#+srcname: plus(x)
+#+begin_src emacs-lisp
+(+ x x)
+#+end_src
+
+
+#+call: plus(4)
+
+http://github.com/eschulte/emacs-starter-kit/tree/
