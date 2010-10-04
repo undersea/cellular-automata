@@ -52,40 +52,8 @@
 ***** The global effect of the update rule is that each cell in the grid becomes assigned with /the class of the nearest initial point as measured by Manhattan distance/
 #+ATTR_LaTeX: width=10em
      [[./manhattan_distance_influence.png]]
-<<<<<<< HEAD
-**** The Manhattan effect stems from the fact that each cells influence speads out from itself in 2 dimensions.
-**** 
-* Quantitive Experiment in 2d
-** test on 2d geometric patterns
-** each pattern generated in a square 2d plane
-** grid 81x81 = 6561 cells
-** 2 class problem created from each pattern
-*** 2 classes of 1 and 2 with 0 representing undetermined
-*** the grid was divided into 2 categories, ie 1 within shape one without
-** 
-* Multidimensional data mining (> 2d)
-** Grid definition
-** Grid size
-** Convergence
-* Related work
-* Discussion
-
-#+tblname: fibonacci-inputs
-| 1 | 2 | 3 | 4 |  5 |  6 |  7 |  8 |  9 | 10 |
-| 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 | 18 | 20 |
-
-#+source: square(x)
-#+begin_src python
-print x
-return x*x
-#+end_src
-
-
-#+call: square(x=fibonacci-inputs) :exports results :results output
-
-=======
-***** The Manhattan effect stems from the fact that each cells influence speads out from itself in 2 dimensions.
-***** 
+****** The Manhattan effect stems from the fact that each cells influence speads out from itself in 2 dimensions.
+****** 
 ** Quantitative Experiment in 2d
 *** test on 2d geometric patterns
 *** each pattern generated in a square 2d plane
@@ -98,13 +66,14 @@ return x*x
 *** Grid definition
 *** Grid size
 *** Convergence
-** Related work
-** Discussion
->>>>>>> b676406d4493e4b53860a5e4638b9608a3e28f0c
+*** Related work
+*** Discussion
+
 
 * New
   
 ** Introduction
+ 
 
 Cellular automata is a discrete dynamical system that performs
 computations in a finely distributed fashion on a spatial grid.
@@ -115,14 +84,7 @@ generalisation behaviour as an emergent property can be achieved.
  
 ** Background
 
-<<<<<<< HEAD
-#+call: plus(x=6)
-
-#+results: plus(x=6)
-: 12
-=======
 ** Data Mining (Clustering)
->>>>>>> b676406d4493e4b53860a5e4638b9608a3e28f0c
 
 ** Results
    
