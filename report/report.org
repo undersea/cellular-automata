@@ -1,70 +1,89 @@
-* What is cellular automata (brief as possible)
-* Using Cellular Automata as a classifier
-** Explore the use of cellular automata as a means of data mining, specifically classification.
-** Gives resonable generalisation behaviour as an emergent property
-* What are its strengths and weaknesses as a classifier
-** Low bias
-** effective general classification, similar to those produced by complex data mining models, through the collective behaviour of simple cells
-** makes pure local decisions based upon information from only its immediate neighbours
-** Uses little data
-** Is robust in the face of noise
-* How do they do it
-** Instance based learning
-** Cells represent portions of instance space
-** organised and connected according to attribute value ranges
-*** These being things like x and y vectors with x representing say height and y representing weight
-*** The values must be in form of integers otherwise can't be mapped into a vector space
-** Instance space in form of a multidimensional grid
-** Grid is seeded with training data
-** CA is run until convergence
-*** Organise themselves into regions of similar class assignemt
-** CA uses a simple voting system locally that reduces entropy
-*** Sets the cells value according to the values of its neighbourhood, majority wins
-    - If the grid is a 2d grid then the cell has 4 neighbours and 3 of
-      its neigbours are of a value 2 then the value of this cell gets
-      changed to 2
-*** Uses Von Neumann neighbourhood 
-**** as is linear in number of dimensions of the namespace (for each dimension you get 2 neighbours)
-**** scales well as a result
+#+TITLE:     Using Cellular Automata for Data Mining
+#+AUTHOR:    James Hurford
+#+EMAIL:     
+#+DATE:      
+#+DESCRIPTION: 
+#+KEYWORDS: 
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+* Previous
+:PROPERTIES:
+
+:END:
+** What is cellular automata (brief as possible)
+** Using Cellular Automata as a classifier
+*** Explore the use of cellular automata as a means of data mining, specifically classification.
+*** Gives reasonable generalisation behaviour as an emergent property
+** What are its strengths and weaknesses as a classifier
+*** Low bias
+*** effective general classification, similar to those produced by complex data mining models, through the collective behaviour of simple cells
+*** makes pure local decisions based upon information from only its immediate neighbours
+*** Uses little data
+*** Is robust in the face of noise
+** How do they do it
+*** Instance based learning
+*** Cells represent portions of instance space
+*** organised and connected according to attribute value ranges
+**** These being things like x and y vectors with x representing say height and y representing weight
+**** The values must be in form of integers otherwise can't be mapped into a vector space
+*** Instance space in form of a multidimensional grid
+*** Grid is seeded with training data
+*** CA is run until convergence
+**** Organise themselves into regions of similar class assignemt
+*** CA uses a simple voting system locally that reduces entropy
+**** Sets the cells value according to the values of its neighbourhood, majority wins
+     - If the grid is a 2d grid then the cell has 4 neighbours and 3 of
+       its neigbours are of a value 2 then the value of this cell gets
+       changed to 2
+**** Uses Von Neumann neighbourhood 
+***** as is linear in number of dimensions of the namespace (for each dimension you get 2 neighbours)
+***** scales well as a result
 #+ATTR_LaTeX: width=30em
    [[./neighbours_per_dimension.png]]
-**** Is a stable rule in that once a cell value has been set it will not change
-**** The global effect of the update rule is that each cell in the grid becomes assigned with /the class of the nearest initial point as measured by Manhattan distance/
+***** Is a stable rule in that once a cell value has been set it will not change
+***** The global effect of the update rule is that each cell in the grid becomes assigned with /the class of the nearest initial point as measured by Manhattan distance/
 #+ATTR_LaTeX: width=10em
      [[./manhattan_distance_influence.png]]
-**** The Manhattan effect stems from the fact that each cells influence speads out from itself in 2 dimensions.
-**** 
-* Quantitive Experiment in 2d
-** test on 2d geometric patterns
-** each pattern generated in a square 2d plane
-** grid 81x81 = 6561 cells
-** 2 class problem created from each pattern
-*** 2 classes of 1 and 2 with 0 representing undetermined
-*** the grid was divided into 2 categories, ie 1 within shape one without
-** 
-* Multidimensional data mining (> 2d)
-** Grid definition
-** Grid size
-** Convergence
-* Related work
-* Discussion
+***** The Manhattan effect stems from the fact that each cells influence speads out from itself in 2 dimensions.
+***** 
+** Quantitative Experiment in 2d
+*** test on 2d geometric patterns
+*** each pattern generated in a square 2d plane
+*** grid 81x81 = 6561 cells
+*** 2 class problem created from each pattern
+**** 2 classes of 1 and 2 with 0 representing undetermined
+**** the grid was divided into 2 categories, ie 1 within shape one without
+*** 
+** Multidimensional data mining (> 2d)
+*** Grid definition
+*** Grid size
+*** Convergence
+** Related work
+** Discussion
 
-#+source: square(x)
-#+begin_src python
-x=3
-return x*x
-#+end_src
+* New
+  
+** Introduction
 
+Cellular automata is a discrete dynamical system that performs
+computations in a finely distributed fashion on a spatial grid.
 
-#+call: square(x=6)
+The article explores using cellular automata for data mining
+specifically as a classifier. They demonstrate reasonable
+generalisation behaviour as an emergent property can be achieved.
+ 
+** Background
 
+** Data Mining (Clustering)
 
-#+srcname: plus(x)
-#+begin_src emacs-lisp
-(+ x x)
-#+end_src
-
-
-#+call: plus(4)
-
-http://github.com/eschulte/emacs-starter-kit/tree/
+** Results
+   
+** Conclusions
