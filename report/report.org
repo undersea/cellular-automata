@@ -49,14 +49,19 @@
 * Related work
 * Discussion
 
+#+tblname: fibonacci-inputs
+| 1 | 2 | 3 | 4 |  5 |  6 |  7 |  8 |  9 | 10 |
+| 2 | 4 | 6 | 8 | 10 | 12 | 14 | 16 | 18 | 20 |
+
 #+source: square(x)
 #+begin_src python
-x=3
+print x
 return x*x
 #+end_src
 
 
-#+call: square(x=6)
+#+call: square(x=fibonacci-inputs) :exports results :results output
+
 
 
 #+srcname: plus(x)
@@ -65,6 +70,9 @@ return x*x
 #+end_src
 
 
-#+call: plus(4)
+#+call: plus(x=6)
+
+#+results: plus(x=6)
+: 12
 
 http://github.com/eschulte/emacs-starter-kit/tree/
