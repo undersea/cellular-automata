@@ -14,7 +14,7 @@
 #+LINK_HOME: 
 #+XSLT: 
 
-* Previous
+* Using Cellular Automata for Data Mining
 :PROPERTIES:
 
 :END:
@@ -70,22 +70,74 @@
 *** Discussion
 
 
-* New
+* Using Cellular Automata for Data Mining
   
 ** Introduction
- 
-
-Cellular automata is a discrete dynamical system that performs
+   Cellular automata is a discrete dynamical system that performs
 computations in a finely distributed fashion on a spatial grid.
 
 The article explores using cellular automata for data mining
-specifically as a classifier. They demonstrate reasonable
+specifically as a classifier. They demonstrate that a reasonable
 generalisation behaviour as an emergent property can be achieved.
- 
+
+
 ** Background
+   Cellular automata are discrete, dynamical systems whose
+behavior is completely specified in terms of local rules. It consists
+of a grid of cells, which is usually in one or two dimensions.  Each
+cell has a finite, discrete value assigned to it.  Every cell has a
+fixed set of neighbours, referred to as its neighbourhood.  There are
+two common neighbourhood definitions are the Von Neumann neighbourhood
+and the Moore neighbourhood.
 
 ** Data Mining (Clustering)
+   In the article they propose using cellular automata as a form of
+instance based learning where the cells represent portions of instance
+space. 
+
+They are organised and connected according to attribute value
+ranges. The instance space in form of a multidimensional grid. Each
+cells state represents a class assignment for that point in the
+instance space. The grid is seeded with training data then run until
+convergence.
+
+Convergence happens when all the cells have been given
+a class value, and no unassigned cells exist. The process of convergence has the effect of the classes organising
+themselves into regions of similar class assignment
+#+attr_latex: width=30em \textwidth
+[[file:./image of similar class assignment]]
+
+- CA uses a simple voting system locally that reduces entropy
+**** Sets the cells value according to the values of its neighbourhood, majority wins
+     - If the grid is a 2d grid then the cell has 4 neighbours and 3 of
+       its neigbours are of a value 2 then the value of this cell gets
+       changed to 2
+**** Uses Von Neumann neighbourhood 
+***** as is linear in number of dimensions of the namespace (for each dimension you get 2 neighbours)
+***** scales well as a result
+#+ATTR_LaTeX: width=30em
+   [[./neighbours_per_dimension.png]]
+***** Is a stable rule in that once a cell value has been set it will not change
+***** The global effect of the update rule is that each cell in the grid becomes assigned with /the class of the nearest initial point as measured by Manhattan distance/
+#+ATTR_LaTeX: width=10em
+     [[./manhattan_distance_influence.png]]
+****** The Manhattan effect stems from the fact that each cells influence speads out from itself in 2 dimensions.
+****** 
 
 ** Results
-   
+*** Quantitative Experiment in 2d
+- test on 2d geometric patterns
+- each pattern generated in a square 2d plane
+- grid 81x81 = 6561 cells
+- 2 class problem created from each pattern
+  - 2 classes of 1 and 2 with 0 representing undetermined
+  - the grid was divided into 2 categories, ie 1 within shape one without
+*** Multidimensional data mining (> 2d)
+- Grid definition
+- Grid size
+- Convergence
+- Related work
+- Discussion
+
+    
 ** Conclusions

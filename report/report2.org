@@ -1,0 +1,34 @@
+#+TITLE:     Using Cellular Automata for Data Mining
+#+AUTHOR:    James Hurford
+#+EMAIL:     
+#+DATE:      
+#+DESCRIPTION: 
+#+KEYWORDS: 
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+
+* Introduction
+  The paper uses cellular automata to solve the problem of data
+  mining, specifically classification of data using cellular automata
+  as a clustering tool.  
+* Background
+  The paper describes a proof of concept showing that cellular
+  automata can be used for the purpose of data mining.
+  
+  Cellular automata is a discrete, dynamic system, which uses
+  localised rules as a means of determining each cells value.  
+  
+* Data Mining (Clustering)
+  
+* Results
+  
+* Conclusions
+  
