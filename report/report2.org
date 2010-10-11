@@ -16,41 +16,20 @@
 
 
 * Introduction
-  Cellular automata (CA) is a discrete, dynamic system, which uses
-  localised rules to determine its state.  Individually, at the cell
-  level, CA is simple, but collectively demonstrates complex emergent
-  behaviour, and is capable of some forms of self organisation.  CA is
-  used to model many things, like HIV infections, growth of animal
-  habitats.
-
-  Fawcett's \cite{fawcett08} paper uses cellular automata to solve the
-  problem of data mining, specifically classification of data using
-  cellular automata as a clustering tool.  CA represents a low-bias
-  data mining method and that as decisions are made locally, CA has
-  virtually no modeling constraints.  CA is a simple, but powerful way
-  of gaining fine tuned parallelism on a large scale. So all cells
-  can compute their values at the same time.
-
-  The purpose of Fawcett's \cite{fawcett08} article is to demonstrate
-  effective generalisation can be achieved as a emergent property of
-  cellular automata, from the collective behaviour of simple cells.
-  Fawcett \cite{fawcett08} demonstrates that effective classification
-  can be achieved similar to that of other data mining models.  This
-  is gained from the collective behaviour of simple cells, based on
-  local decisions from data gained from the cells immediate
-  neighbours.  Fawcett shows that CA perform well with little data and
-  is robust in the face of noise.
-
-  We are going to reproduce Fawcett's \cite{fawcett08} work and
-  compare the results, demonstrating that his claims are valid.
+  A cellular automata system is a collection of cells arranged in a
+  grid.  Each cell has a value associated with it, and these values
+  are called states.  The state is a set of finite values.  When first
+  set up the cellular automata is seeded with states for each cell,
+  which could be randomly assigned or not. The cellular automata is
+  then put through a series of steps, and at each step the states of
+  each cell is updated according to some simple rules based on the
+  values of each its immediate neighbours.  There are two popular
+  neighbourhoods, the Von Neumann and Moore neighbourhoods.  Von
+  Neumann method uses only the north, south, east and west neighbours
+  and Moore
 
   
 * Background
-  Fawcett's \cite{fawcett08} paper describes a proof of concept showing that cellular
-  automata can be used for the purpose of data mining.
-  
-  Cellular automata is a discrete, dynamic system, which uses
-  localised rules as a means of determining each cells value.  
   
 * Data Mining (Clustering)
   
