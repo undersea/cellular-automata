@@ -20,8 +20,7 @@
   mining, specifically classification of data using cellular automata
   as a clustering tool.  
 * Background
-  The paper describes a proof of concept showing that cellular
-  automata can be used for the purpose of data mining.
+  The paper shows that cellular automata can be used for the purpose of data mining.
   
   Cellular automata is a discrete, dynamic system, which uses
   localised rules as a means of determining each cells value.  
