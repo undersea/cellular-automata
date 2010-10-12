@@ -47,7 +47,8 @@
   cellular automata can be done.
 
   In this model we use the Von Neumann neighbourhood and use a set of
-  rules designed to implement a majority vote system.
+  rules designed to implement a majority vote system.  This has the
+  effect of 
 
   
 * Data Mining (Clustering)
