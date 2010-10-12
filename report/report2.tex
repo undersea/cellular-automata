@@ -1,4 +1,4 @@
-% Created 2010-10-11 Mon 17:05
+% Created 2010-10-12 Tue 17:51
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -33,48 +33,56 @@
 \section{Introduction}
 \label{sec-1}
 
-  Cellular automata (CA) is a discrete, dynamic system, which uses
-  localised rules to determine its state.  Individually, at the cell
-  level, CA is simple, but collectively demonstrates complex emergent
-  behaviour, and is capable of some forms of self organisation.  CA is
-  used to model many things, like HIV infections, growth of animal
-  habitats.
+  A cellular automata is a grid of individual cells whose values are
+  updated according to local rules. The rules determining the values
+  for each cell are simple, but combined the cells can exhibit
+  emergent behaviour. 
 
-  Fawcett's \cite{fawcett08} paper uses cellular automata to solve the
-  problem of data mining, specifically classification of data using
-  cellular automata as a clustering tool.  CA represents a low-bias
-  data mining method and that as decisions are made locally, CA has
-  virtually no modeling constraints.  CA is a simple, but powerful way
-  of gaining fine tuned parallelism on a large scale. So all cells
-  can compute their values at the same time.
+  Cellular automata are being used as a modeling tool by
+  scientists. The most famous cellular automata is Conway's Game of
+  Life, but cellular automata have also been used to model traffic
+  flows, chemical reactions, and infections.
 
-  The purpose of Fawcett's \cite{fawcett08} article is to demonstrate
-  effective generalisation can be achieved as a emergent property of
-  cellular automata, from the collective behaviour of simple cells.
-  Fawcett \cite{fawcett08} demonstrates that effective classification
-  can be achieved similar to that of other data mining models.  This
-  is gained from the collective behaviour of simple cells, based on
-  local decisions from data gained from the cells immediate
-  neighbours.  Fawcett shows that CA perform well with little data and
-  is robust in the face of noise.
-
-  We are going to reproduce Fawcett's \cite{fawcett08} work and compare the results,
-  demonstrating that his claims are valid.
-
-  
+  In this report we are using cellular automata for data mining, in
+  particular classification, by using cellular automata as a
+  clustering tool, based on the article ``Data mining with cellular
+  automata'' by Tome Fawcett \cite{fawcett08}.
 \section{Background}
 \label{sec-2}
 
-  Fawcett's \cite{fawcett08} paper describes a proof of concept showing that cellular
-  automata can be used for the purpose of data mining.
-  
-  Cellular automata is a discrete, dynamic system, which uses
-  localised rules as a means of determining each cells value.  
+  A cellular automata is a grid of individual cells whose values are
+  updated according to local rules. The rules determining the values
+  for each cell are simple, but combined the cells exhibits emergent
+  behaviour.  They work with little data and is resistant to errors
+  when noise is introduced.  The cells in a cellular automata are self
+  organising and have a low-bias when used for data mining.
+
+  Fawcett \cite{fawcett08} was interested in a proof of concept
+  implementation of cellular automata showing it could be used as a
+  data mining, classification, clustering tool
+
+  In this model we use the Von Neumann neighbourhood and use a set of
+  rules designed to implement a majority vote system.
+
   
 \section{Data Mining (Clustering)}
 \label{sec-3}
 
-  
+  The process goes like this.  The cellular automata consists of a
+  grid of N dimensions, where N is the number of predicates being
+  used.  The length of each of the axis used is also determined by the
+  size range of the specific predicate used, so a data set with say
+  predicates of X and Y, where X has values from zero to ten, and Y
+  has values from zero to twenty, so the grid is a two dimensional
+  grid of ten by twenty.  Each pair of predicates has a class
+  associated with it.  
+
+  If the majority of neighbours values for the
+  cell in question have a value of say two, then the value of the
+  current cell is changed to two.  If the is a stalemate, such as in a
+  two dimensional grid two neighbours having a value of two and two
+  other neighbours having a value of one, then the value of the cell
+  will be picked at random from the values of the neighbours.
 \section{Results}
 \label{sec-4}
 
@@ -83,8 +91,6 @@
 \label{sec-5}
 
   
-\section{References}
-\label{sec-6}
 
 
 \bibliographystyle{plain}

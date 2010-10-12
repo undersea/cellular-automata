@@ -16,29 +16,63 @@
 
 
 * Introduction
-  A cellular automata system is a collection of cells arranged in a
-  grid.  Each cell has a value associated with it, and these values
-  are called states.  The state is a set of finite values.  When first
-  set up the cellular automata is seeded with states for each cell,
-  which could be randomly assigned or not. The cellular automata is
-  then put through a series of steps, and at each step the states of
-  each cell is updated according to some simple rules based on the
-  values of each its immediate neighbours.  There are two popular
-  neighbourhoods, the Von Neumann and Moore neighbourhoods.  Von
-  Neumann method uses only the north, south, east and west neighbours
-  and Moore
+  A cellular automata is a grid of individual cells whose values are
+  updated according to local rules. The rules determining the values
+  for each cell are simple, but combined the cells can exhibit
+  emergent behaviour. 
+
+  Cellular automata are being used as a modeling tool by
+  scientists. The most famous cellular automata is Conway's Game of
+  Life, but cellular automata have also been used to model traffic
+  flows, chemical reactions, and infections.
+
+  In this report we are using cellular automata for data mining, in
+  particular classification, by using cellular automata as a
+  clustering tool, based on the article "Data mining with cellular
+  automata" by Tome Fawcett \cite{fawcett08}.
+
+* Background
+  A cellular automata is a grid of individual cells whose values are
+  updated according to local rules. The rules determining the values
+  for each cell are simple, but combined the cells exhibits emergent
+  behaviour.  They work with little data and is resistant to errors
+  when noise is introduced.  The cells in a cellular automata are self
+  organising and have a low-bias when used for data mining.
+
+  Fawcett \cite{fawcett08} was interested in a implementation of
+  cellular automata showing it could be used as a data mining,
+  classification, clustering tool.  It was not to extend a existing
+  method, or to create a new method of data mining. Fawcett's
+  \cite{fawcett08} aim was to demonstrate that clustering using
+  cellular automata can be done.
+
+  In this model we use the Von Neumann neighbourhood and use a set of
+  rules designed to implement a majority vote system.
 
   
-* Background
-  
 * Data Mining (Clustering)
-  
+  The process goes like this.  The cellular automata consists of a
+  grid of N dimensions, where N is the number of predicates being
+  used.  The length of each of the axis used is also determined by the
+  size range of the specific predicate used, so a data set with say
+  predicates of X and Y, where X has values from zero to ten, and Y
+  has values from zero to twenty, so the grid is a two dimensional
+  grid of ten by twenty.  Each pair of predicates has a class
+  associated with it.  
+
+  If the majority of neighbours values for the
+  cell in question have a value of say two, then the value of the
+  current cell is changed to two.  If the is a stalemate, such as in a
+  two dimensional grid two neighbours having a value of two and two
+  other neighbours having a value of one, then the value of the cell
+  will be picked at random from the values of the neighbours.
+
+
 * Results
   
 * Conclusions
   
 
-* References
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
