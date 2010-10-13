@@ -26,11 +26,6 @@
  - Data mining (Classification)
  - Purpose is to show that cellular automata can be used as a
    clustering tool
-* Cellular automata
- - Grid of cells
- - State (0 or 1) determined by simple rules based on immediate neighbours
-   - Von Neumann or Moore's neighbourhood
- - Leads to complex behaviour
 * Clustering and Classification tool
  - Emergent behaviour
  - Less error prone
@@ -41,7 +36,6 @@
 + It is run until convergence happens
   - This is achieved when all cells are assigned a class
 
-
 * My implementation
  * Written in C++ using the STL
  * The process
@@ -50,22 +44,6 @@
    - Populate with training data
    - Run until finished
    - Test with test data
-* Snippet
- + Neighbour finder
-#+source: nearest_neighbour
-#+begin_src c++
-  for(unsigned i = 0; i < point.size(); i++) {
-    for(int j = -1; j < 2; j+=2) {
-      Coord neighbour(point.size());
-      neighbour = point;
-      neighbour[i] += j;
-      if(neighbour[i] >= 0 && neighbour[i] < graph.dimensions[i]) {
-        val[graph(neighbour).get()]++;
-      }
-    }
-   }
-#+end_src
-
 * Findings
  + In general my data does seem to support Fawcett's hypothesis
  + Does not exactly match up with Fawcett's results

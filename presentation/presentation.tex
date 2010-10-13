@@ -1,4 +1,4 @@
-% Created 2010-10-13 Wed 14:40
+% Created 2010-10-13 Wed 14:48
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -40,23 +40,8 @@
 \end{itemize}
 \end{frame}
 \begin{frame}
-\frametitle{Cellular automata}
-\label{sec-2}
-
-\begin{itemize}
-\item Grid of cells
-\item State (0 or 1) determined by simple rules based on immediate neighbours
-
-\begin{itemize}
-\item Von Neumann or Moore's neighbourhood
-\end{itemize}
-
-\item Leads to complex behaviour
-\end{itemize}
-\end{frame}
-\begin{frame}
 \frametitle{Clustering and Classification tool}
-\label{sec-3}
+\label{sec-2}
 
 \begin{itemize}
 \item Emergent behaviour
@@ -66,8 +51,7 @@
 \end{frame}
 \begin{frame}
 \frametitle{The approach}
-\label{sec-4}
-
+\label{sec-3}
 
 \begin{itemize}
 \item Uses a majority voting system
@@ -82,7 +66,7 @@
 \end{frame}
 \begin{frame}
 \frametitle{My implementation}
-\label{sec-5}
+\label{sec-4}
 
 \begin{itemize}
 \item Written in C++ using the STL
@@ -102,30 +86,9 @@
 
 \end{itemize}
 \end{frame}
-\begin{frame}[fragile]
-\frametitle{Snippet}
-\label{sec-6}
-
-\begin{itemize}
-\item Neighbour finder
-\end{itemize}
-
-\begin{verbatim}
-for(unsigned i = 0; i < point.size(); i++) {
-  for(int j = -1; j < 2; j+=2) {
-    Coord neighbour(point.size());
-    neighbour = point;
-    neighbour[i] += j;
-    if(neighbour[i] >= 0 && neighbour[i] < graph.dimensions[i]) {
-      val[graph(neighbour).get()]++;
-    }
-  }
- }
-\end{verbatim}
-\end{frame}
 \begin{frame}
 \frametitle{Findings}
-\label{sec-7}
+\label{sec-5}
 
 \begin{itemize}
 \item In general my data does seem to support Fawcett's hypothesis
@@ -134,7 +97,7 @@ for(unsigned i = 0; i < point.size(); i++) {
 \end{frame}
 \begin{frame}
 \frametitle{Explanation/Evaluation}
-\label{sec-8}
+\label{sec-6}
 
 \begin{itemize}
 \item Inconsistencies between my results and Fawcett's
@@ -149,7 +112,7 @@ for(unsigned i = 0; i < point.size(); i++) {
 \end{frame}
 \begin{frame}
 \frametitle{Conclusions}
-\label{sec-9}
+\label{sec-7}
 
 \begin{itemize}
 \item Cellular automata can be used as a clustering and classification
