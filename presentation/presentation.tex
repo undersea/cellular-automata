@@ -1,0 +1,164 @@
+% Created 2010-10-13 Wed 14:40
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\providecommand{\alert}[1]{\textbf{#1}}
+
+\title{Using Cellular Automata as a clustering tool}
+\author{James Hurford}
+\date{13/10/2010}
+
+\usetheme{default}\usecolortheme{default}
+\begin{document}
+
+\maketitle
+
+
+
+
+\begin{frame}
+\frametitle{Introduction}
+\label{sec-1}
+
+\begin{itemize}
+\item Data mining (Classification)
+\item Purpose is to show that cellular automata can be used as a
+   clustering tool
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Cellular automata}
+\label{sec-2}
+
+\begin{itemize}
+\item Grid of cells
+\item State (0 or 1) determined by simple rules based on immediate neighbours
+
+\begin{itemize}
+\item Von Neumann or Moore's neighbourhood
+\end{itemize}
+
+\item Leads to complex behaviour
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Clustering and Classification tool}
+\label{sec-3}
+
+\begin{itemize}
+\item Emergent behaviour
+\item Less error prone
+\item Low-bias and Self organising
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{The approach}
+\label{sec-4}
+
+
+\begin{itemize}
+\item Uses a majority voting system
+\item Grid size and dimensions determined by predicates used
+\item It is run until convergence happens
+
+\begin{itemize}
+\item This is achieved when all cells are assigned a class
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{My implementation}
+\label{sec-5}
+
+\begin{itemize}
+\item Written in C++ using the STL
+\item The process
+
+\begin{itemize}
+\item Define a grid
+
+\begin{itemize}
+\item Predicates must be turned into integers
+\end{itemize}
+
+\item Populate with training data
+\item Run until finished
+\item Test with test data
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Snippet}
+\label{sec-6}
+
+\begin{itemize}
+\item Neighbour finder
+\end{itemize}
+
+\begin{verbatim}
+for(unsigned i = 0; i < point.size(); i++) {
+  for(int j = -1; j < 2; j+=2) {
+    Coord neighbour(point.size());
+    neighbour = point;
+    neighbour[i] += j;
+    if(neighbour[i] >= 0 && neighbour[i] < graph.dimensions[i]) {
+      val[graph(neighbour).get()]++;
+    }
+  }
+ }
+\end{verbatim}
+\end{frame}
+\begin{frame}
+\frametitle{Findings}
+\label{sec-7}
+
+\begin{itemize}
+\item In general my data does seem to support Fawcett's hypothesis
+\item Does not exactly match up with Fawcett's results
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Explanation/Evaluation}
+\label{sec-8}
+
+\begin{itemize}
+\item Inconsistencies between my results and Fawcett's
+
+\begin{itemize}
+\item Maybe because of a lack of specific information
+\end{itemize}
+
+\item The process can take a long time
+\item Memory is the bottleneck
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Conclusions}
+\label{sec-9}
+
+\begin{itemize}
+\item Cellular automata can be used as a clustering and classification
+   tool
+\end{itemize}
+\end{frame}
+\begin{frame}
+
+  \includegraphics[width=30em \textwidth]{./thankyou.png}
+\end{frame}
+
+\end{document}

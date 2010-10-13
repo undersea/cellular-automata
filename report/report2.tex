@@ -1,4 +1,4 @@
-% Created 2010-10-12 Tue 17:51
+% Created 2010-10-13 Wed 10:30
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -53,18 +53,23 @@
   A cellular automata is a grid of individual cells whose values are
   updated according to local rules. The rules determining the values
   for each cell are simple, but combined the cells exhibits emergent
-  behaviour.  They work with little data and is resistant to errors
-  when noise is introduced.  The cells in a cellular automata are self
-  organising and have a low-bias when used for data mining.
+  behaviour.  The cells can be thought of as a population which
+  changes at each generation.
 
-  Fawcett \cite{fawcett08} was interested in a proof of concept
-  implementation of cellular automata showing it could be used as a
-  data mining, classification, clustering tool
+  They work with little data and is resistant to errors when noise is
+  introduced.  The cells in a cellular automata are self organising
+  and have a low-bias when used as a clustering tool.
+
+  Fawcett \cite{fawcett08} was interested in a implementation of
+  cellular automata showing it could be used as a data mining,
+  classification, clustering tool.  It was not to extend a existing
+  method, or to create a new method of data mining. Fawcett's
+  \cite{fawcett08} aim was to demonstrate that clustering using
+  cellular automata can be done.
 
   In this model we use the Von Neumann neighbourhood and use a set of
-  rules designed to implement a majority vote system.
-
-  
+  rules designed to implement a majority vote system.  This has the
+  effect of 
 \section{Data Mining (Clustering)}
 \label{sec-3}
 

@@ -207,9 +207,11 @@ bool is_bool(bool tmp)
 int main(void)
 {
   std::cout << "begin\n";
-  std::vector<unsigned short> dimensions(2);
+  std::vector<unsigned short> dimensions(4);
   dimensions[0] = 81;
-  dimensions[1] = 81;
+  dimensions[1] = 45;
+  dimensions[2] = 71;
+  dimensions[3] = 26;
 
  
   std::cout << "before init graph\n";
@@ -219,8 +221,8 @@ int main(void)
   ifstream input;
   
   std::cout << "before load\n";
-  //input.open("data/iris_train.data");
-  input.open("data/points_train.data");
+  input.open("data/iris_train.data");
+  //input.open("data/points_train.data");
   if(input.good()) {
     std::cout << "opened\n";
     graph().load(input, ' ');
@@ -262,8 +264,8 @@ int main(void)
   ifstream input2;
   
   std::cout << "before load\n";
-  // input2.open("data/iris_test.data");
-  input2.open("data/points_test.data");
+  input2.open("data/iris_test.data");
+  //input2.open("data/points_test.data");
   CellularAutomata::Coord coord(2);
   std::vector<bool> results;
   unsigned count = 0;

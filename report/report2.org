@@ -35,9 +35,12 @@
   A cellular automata is a grid of individual cells whose values are
   updated according to local rules. The rules determining the values
   for each cell are simple, but combined the cells exhibits emergent
-  behaviour.  They work with little data and is resistant to errors
-  when noise is introduced.  The cells in a cellular automata are self
-  organising and have a low-bias when used for data mining.
+  behaviour.  The cells can be thought of as a population which
+  changes at each generation.
+
+  They work with little data and is resistant to errors when noise is
+  introduced.  The cells in a cellular automata are self organising
+  and have a low-bias when used as a clustering tool.
 
   Fawcett \cite{fawcett08} was interested in a implementation of
   cellular automata showing it could be used as a data mining,
@@ -50,7 +53,6 @@
   rules designed to implement a majority vote system.  This has the
   effect of 
 
-  
 * Data Mining (Clustering)
   The process goes like this.  The cellular automata consists of a
   grid of N dimensions, where N is the number of predicates being
@@ -67,7 +69,6 @@
   two dimensional grid two neighbours having a value of two and two
   other neighbours having a value of one, then the value of the cell
   will be picked at random from the values of the neighbours.
-
 
 * Results
   

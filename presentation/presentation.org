@@ -1,0 +1,85 @@
+#+TITLE:     Using Cellular Automata as a clustering tool
+#+AUTHOR:    James Hurford
+#+EMAIL:     
+#+DATE:      13/10/2010
+#+DESCRIPTION: A presentation on using cellular automata as a data mining clustering and classification tool
+#+KEYWORDS: cellular automata classification clustering data mining
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation]
+#+BEAMER_FRAME_LEVEL: 1
+#+BEAMER_HEADER_EXTRA: \usetheme{default}\usecolortheme{default}
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_envargs(Env Args) %4BEAMER_col(Col) %8BEAMER_extra(Extra)
+#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 :ETC
+
+
+
+* Introduction
+ - Data mining (Classification)
+ - Purpose is to show that cellular automata can be used as a
+   clustering tool
+* Cellular automata
+ - Grid of cells
+ - State (0 or 1) determined by simple rules based on immediate neighbours
+   - Von Neumann or Moore's neighbourhood
+ - Leads to complex behaviour
+* Clustering and Classification tool
+ - Emergent behaviour
+ - Less error prone
+ - Low-bias and Self organising
+* The approach
++ Uses a majority voting system
++ Grid size and dimensions determined by predicates used
++ It is run until convergence happens
+  - This is achieved when all cells are assigned a class
+
+
+* My implementation
+ * Written in C++ using the STL
+ * The process
+   - Define a grid
+     + Predicates must be turned into integers
+   - Populate with training data
+   - Run until finished
+   - Test with test data
+* Snippet
+ + Neighbour finder
+#+source: nearest_neighbour
+#+begin_src c++
+  for(unsigned i = 0; i < point.size(); i++) {
+    for(int j = -1; j < 2; j+=2) {
+      Coord neighbour(point.size());
+      neighbour = point;
+      neighbour[i] += j;
+      if(neighbour[i] >= 0 && neighbour[i] < graph.dimensions[i]) {
+        val[graph(neighbour).get()]++;
+      }
+    }
+   }
+#+end_src
+
+* Findings
+ + In general my data does seem to support Fawcett's hypothesis
+ + Does not exactly match up with Fawcett's results
+
+* Explanation/Evaluation
+ + Inconsistencies between my results and Fawcett's
+   + Maybe because of a lack of specific information
+ + The process can take a long time
+ + Memory is the bottleneck
+
+* Conclusions
+ - Cellular automata can be used as a clustering and classification
+   tool
+* 
+#+attr_latex: width=30em \textwidth
+  [[file:./thankyou.png]]
+
