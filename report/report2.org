@@ -16,32 +16,17 @@
 
 
 * Introduction
-  A cellular automata is a grid of individual cells whose values are
-  updated according to local rules. The rules determining the values
-  for each cell are simple, but combined the cells can exhibit
-  emergent behaviour. 
 
   Cellular automata are being used as a modeling tool by
   scientists. The most famous cellular automata is Conway's Game of
   Life, but cellular automata have also been used to model traffic
-  flows, chemical reactions, and infections.
+  flows, chemical reactions, and infection rates.
 
-  In this report we are using cellular automata for data mining, in
-  particular classification, by using cellular automata as a
+  In this report we are using a cellular automata for data mining, in
+  particular classification, by using a cellular automata as a
   clustering tool, based on the article "Data mining with cellular
   automata" by Tome Fawcett \cite{fawcett08}.
-
-* Background
-  A cellular automata is a grid of individual cells whose values are
-  updated according to local rules. The rules determining the values
-  for each cell are simple, but combined the cells exhibits emergent
-  behaviour.  The cells can be thought of as a population which
-  changes at each generation.
-
-  They work with little data and is resistant to errors when noise is
-  introduced.  The cells in a cellular automata are self organising
-  and have a low-bias when used as a clustering tool.
-
+ 
   Fawcett \cite{fawcett08} was interested in a implementation of
   cellular automata showing it could be used as a data mining,
   classification, clustering tool.  It was not to extend a existing
@@ -49,9 +34,61 @@
   \cite{fawcett08} aim was to demonstrate that clustering using
   cellular automata can be done.
 
-  In this model we use the Von Neumann neighbourhood and use a set of
-  rules designed to implement a majority vote system.  This has the
-  effect of 
+  The reason Fawcett \cite{fawcett08} is interested in using a
+  cellular automata to perform clustering and classification is that a
+  cellular automata acts in a similar way to that of nanotechnology
+  automata. A cellular automata can be used as a means of
+  demonstrating how nanotechnology automata might perform data mining.
+* Background
+  A cellular automata is a grid of cells of finite dimensions.  Each
+  cell has a limited number of states.  These states are usually in
+  the form of a number like zero for off and one for on.  The grid is
+  initialised with each cell being in a initial state such as zero.
+  It is then put through a series of steps, called generations and at
+  each generation the states of the cells are determined from that
+  cells immediate neighbours from a simple set of rules.  A rule could
+  be if three or more of my neighbours are in a state of zero then I
+  will be one.  There are several forms of neighbourhoods with the two
+  most popular being Von Neumann neighbourhood, as shown in figure 1,
+  and Moore's neighbourhood as shown in figure 2. At each generation
+  the rules applied in parallel, so the states of the cells get
+  determined all at the same time.
+
+#+CAPTION: Von Neumann neighbourhood with neighbours north, south, east and west
+#+attr_latex: width=10em \textwidth
+#+BEGIN_DITAA  von_neumann -r -S -E
+      +-----+
+      |c999 |
+      |  N  |
++-----+-----+-----+
+|  W  |Cell |  E  |
+|c999 |     |c999 |
++-----+-----+-----+
+      |c999 |
+      |  S  |
+      +-----+
+#+END_DITAA
+
+#+CAPTION: Moore's neighbourhood with neighbours north, northeast, east, southeast, south, southwest, west and northwest
+#+attr_latex: width=10em \textwidth
+#+BEGIN_DITAA  moores -r -S -E
++-----+-----+-----+
+|c999 |c999 |c999 |
+| NW  |  N  | NE  |
++-----+-----+-----+
+|  W  |Cell |  E  |
+|c999 |     |c999 |
++-----+-----+-----+
+|c999 |c999 |c999 |
+| SW  |  S  | SE  |
++-----+-----+-----+
+#+END_DITAA
+
+Fawcett \cite{fawcett08} chose to use a none toroidal finite grid,
+which considers points off the grid as dead zones, thus permanently
+empty.
+
+
 
 * Data Mining (Clustering)
   The process goes like this.  The cellular automata consists of a
@@ -63,17 +100,30 @@
   grid of ten by twenty.  Each pair of predicates has a class
   associated with it.  
 
-  If the majority of neighbours values for the
-  cell in question have a value of say two, then the value of the
-  current cell is changed to two.  If the is a stalemate, such as in a
-  two dimensional grid two neighbours having a value of two and two
-  other neighbours having a value of one, then the value of the cell
-  will be picked at random from the values of the neighbours.
+  If the majority of neighbours values for the cell in question have a
+  value of say two, then the value of the current cell is changed to
+  two.  If the is a stalemate, such as in a two dimensional grid two
+  neighbours having a value of two and two other neighbours having a
+  value of one, then the value of the cell will be picked at random
+  from the values of the neighbours. 
+ 
+  They work with little data and is resistant to errors when noise is
+  introduced.  The cells in a cellular automata are self organising
+  and have a low-bias when used as a clustering tool.
+
+  In this model we use the Von Neumann neighbourhood and use a set of
+  rules designed to implement a majority vote system.  This has the
+  Manhattan effect on its neighbours
 
 * Results
   
 * Conclusions
   
+
+* Future work
+ - Extend the cellular automata to find the best predicates and divide
+   the data into test and train and use this data to create and test
+   itself as a classifier.
 
 
 \bibliographystyle{plain}

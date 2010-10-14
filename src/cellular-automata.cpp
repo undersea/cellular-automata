@@ -208,9 +208,9 @@ int main(void)
 {
   std::cout << "begin\n";
   std::vector<unsigned short> dimensions(4);
-  dimensions[0] = 81;
+  dimensions[0] = 80;
   dimensions[1] = 45;
-  dimensions[2] = 71;
+  dimensions[2] = 70;
   dimensions[3] = 26;
 
  
@@ -222,7 +222,6 @@ int main(void)
   
   std::cout << "before load\n";
   input.open("data/iris_train.data");
-  //input.open("data/points_train.data");
   if(input.good()) {
     std::cout << "opened\n";
     graph().load(input, ' ');
@@ -284,7 +283,6 @@ int main(void)
       break;
     }
     results.push_back(graph().get(coord) == tmp);
-    //printf("(%u, %u) = %d == %d\n", coord[0], coord[1], tmp, graph().get(coord) == tmp);
   }
 
   int number = (int) std::count_if(results.begin(), results.end(), is_bool);
