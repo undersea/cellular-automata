@@ -13,6 +13,12 @@
 
 //#define DEBUG2
 
+
+#define TRAINING_DATA_FILENAME argv[1]
+#define TESTING_DATA_FILENAME argv[2]
+#define TEST_CMD_LINE_INPUTS if(argc < 3) { printf("%s <training_data_filename> <testing_data_filename>\n", argv[0]); return 1; }
+
+
 using namespace std;
 
 #include "cell.hpp"
@@ -203,34 +209,51 @@ bool is_bool(bool tmp)
 }
 
 
-#ifndef TESTING
-int main(void)
+std::vector<unsigned short> load_dimensions(void)
 {
-  std::cout << "begin\n";
-  std::vector<unsigned short> dimensions(4);
-  dimensions[0] = 80;
-  dimensions[1] = 45;
-  dimensions[2] = 70;
-  dimensions[3] = 26;
+  unsigned short size = 1;
+  //char tmp;
+  printf("How many dimensions are there for the CA?: ");
+  scanf("%hu", &size);;
+  std::vector<unsigned short> dimensions(size);
+  for(unsigned i = 0; i < size; i++) {
+    unsigned short axis_size = 81;
+    printf("What is the size of axis %d?: ", i);
+    do {
+      scanf("%hu", &axis_size);
+    } while(axis_size == '\n');
+    dimensions[i] = axis_size;
+  }
 
+  return dimensions;
+}
+
+
+#ifndef TESTING
+int main(int argc, char *argv[] )
+{
+  //MACRO to test to see if input files are specified
+  TEST_CMD_LINE_INPUTS
+
+  printf("begin\n");
+  std::vector<unsigned short> dimensions = load_dimensions();
  
-  std::cout << "before init graph\n";
+  printf("before init graph\n");
   CellularAutomata::CellularAutomata graph(dimensions);
-  std::cout << "after init graph\n";
+  printf("after init graph\n\n");
   //int i,j,k;
-  ifstream input;
+  std::ifstream input;
   
-  std::cout << "before load\n";
-  input.open("data/iris_train.data");
+  
+  input.open(TRAINING_DATA_FILENAME);
   if(input.good()) {
-    std::cout << "opened\n";
+    printf("loading training data from %s\n\n", TRAINING_DATA_FILENAME);
     graph().load(input, ' ');
     input.close();
   } else {
     perror("Failed to open file");
     return 1;
   }
-  std::cout << "after load\n";
 
   const std::set<unsigned> classes = graph().generate_classes();
   printf("number of classes: %d\n", (unsigned)classes.size());
@@ -240,8 +263,9 @@ int main(void)
   std::for_each(classes.begin(), classes.end(), 
 		CellularAutomata::print< unsigned int >());
   putchar('\n');
-  printf("Number of dimensions: %d\n", graph().get_number_dimensions());
+  printf("Number of dimensions: %d\n\n", graph().get_number_dimensions());
   
+  printf("running CA until convergence\n\n");
   
   printf("%d%% done\n", graph.progress());
   for(unsigned steps = 0; steps < 1000 && !graph.full(); steps++) {
@@ -251,21 +275,20 @@ int main(void)
       printf("%d%% done\n", graph.progress());
     }
   }
-  printf("finished %d%% done\n", graph.progress());
-  
   
   for(int i = 0; i< 10;i++) {
     graph.step();
   }
-  
+  printf("finished %d%% done\n\n", graph.progress());
 
 
   ifstream input2;
   
-  std::cout << "before load\n";
-  input2.open("data/iris_test.data");
+  printf("loading test data from %s\n", TESTING_DATA_FILENAME);
+  input2.open(TESTING_DATA_FILENAME);
   //input2.open("data/points_test.data");
-  CellularAutomata::Coord coord(2);
+  printf("running tests\n");
+  CellularAutomata::Coord coord(4);
   std::vector<bool> results;
   unsigned count = 0;
   while(!input2.eof()) {
@@ -286,7 +309,7 @@ int main(void)
   }
 
   int number = (int) std::count_if(results.begin(), results.end(), is_bool);
-
+  printf("results of test are:\n");
   printf("passed %d / %u\n", number, (unsigned)results.size());
 
   return 0;

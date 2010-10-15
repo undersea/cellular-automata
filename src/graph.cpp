@@ -23,7 +23,7 @@ namespace CellularAutomata
   Graph::Graph(void)
     : grid(10000), dimensions(100, 100)
   {
-    std::cout << dimensions[0] << "x" << dimensions[1] << std::endl;
+    printf("%ux%u", dimensions[0], dimensions[1] );
   }
 
 
@@ -50,7 +50,7 @@ namespace CellularAutomata
       size *= this->dimensions[i];
     }
     grid.resize(size);
-    std::cout << "graph size = " << size << std::endl;
+    printf("graph size = %u\n", size);
   }
 
 

@@ -15,6 +15,11 @@
 #+XSLT: 
 
 
+
+#+LaTeX: \setlength{\parindent}{0pt}
+#+LaTeX: \setlength{\parskip}{1em}
+
+
 * Introduction
 
   Cellular automata are being used as a modeling tool by
@@ -26,7 +31,7 @@
   particular classification, by using a cellular automata as a
   clustering tool, based on the article "Data mining with cellular
   automata" by Tome Fawcett \cite{fawcett08}.
- 
+
   Fawcett \cite{fawcett08} was interested in a implementation of
   cellular automata showing it could be used as a data mining,
   classification, clustering tool.  It was not to extend a existing
@@ -39,6 +44,7 @@
   cellular automata acts in a similar way to that of nanotechnology
   automata. A cellular automata can be used as a means of
   demonstrating how nanotechnology automata might perform data mining.
+
 * Background
   A cellular automata is a grid of cells of finite dimensions.  Each
   cell has a limited number of states.  These states are usually in
@@ -47,16 +53,16 @@
   It is then put through a series of steps, called generations and at
   each generation the states of the cells are determined from that
   cells immediate neighbours from a simple set of rules.  A rule could
-  be if three or more of my neighbours are in a state of zero then I
-  will be one.  There are several forms of neighbourhoods with the two
-  most popular being Von Neumann neighbourhood, as shown in figure 1,
-  and Moore's neighbourhood as shown in figure 2. At each generation
-  the rules applied in parallel, so the states of the cells get
-  determined all at the same time.
+  be if three or more neighbours are in a state of zero then the cells
+  state will be one.  There are several forms of neighbourhoods with
+  the two most popular being Von Neumann neighbourhood, as shown in
+  figure 1, and Moore's neighbourhood as shown in figure 2. At each
+  generation the rules applied in parallel, so the states of the cells
+  get determined all at the same time.
 
 #+CAPTION: Von Neumann neighbourhood with neighbours north, south, east and west
 #+attr_latex: width=10em \textwidth
-#+BEGIN_DITAA  von_neumann -r -S -E
+#+BEGIN_DITAA  von_neumann_diagram -r -S -E
       +-----+
       |c999 |
       |  N  |
@@ -71,7 +77,7 @@
 
 #+CAPTION: Moore's neighbourhood with neighbours north, northeast, east, southeast, south, southwest, west and northwest
 #+attr_latex: width=10em \textwidth
-#+BEGIN_DITAA  moores -r -S -E
+#+BEGIN_DITAA  moores_diagram -r -S -E
 +-----+-----+-----+
 |c999 |c999 |c999 |
 | NW  |  N  | NE  |
@@ -86,36 +92,192 @@
 
 Fawcett \cite{fawcett08} chose to use a none toroidal finite grid,
 which considers points off the grid as dead zones, thus permanently
-empty.
+empty.  There was no reason given for this, however this could be
+because in a nanotechnology environment it may not be physically
+possible to wrap the edges around to form a toroid.
 
 
 
 * Data Mining (Clustering)
-  The process goes like this.  The cellular automata consists of a
-  grid of N dimensions, where N is the number of predicates being
-  used.  The length of each of the axis used is also determined by the
-  size range of the specific predicate used, so a data set with say
-  predicates of X and Y, where X has values from zero to ten, and Y
-  has values from zero to twenty, so the grid is a two dimensional
-  grid of ten by twenty.  Each pair of predicates has a class
-  associated with it.  
 
-  If the majority of neighbours values for the cell in question have a
-  value of say two, then the value of the current cell is changed to
-  two.  If the is a stalemate, such as in a two dimensional grid two
-  neighbours having a value of two and two other neighbours having a
-  value of one, then the value of the cell will be picked at random
-  from the values of the neighbours. 
- 
-  They work with little data and is resistant to errors when noise is
-  introduced.  The cells in a cellular automata are self organising
-  and have a low-bias when used as a clustering tool.
+  Fawcett \cite{fawcett08} decided to use cellular automata as a
+  instance based learner. They shall be organised so that each axis
+  represents a predicate, so a range of cells represent a particular
+  class in the instance space.  The grid is seeded with training
+  data.  This takes the form of taking attribute values and using them
+  as the coordinates into which the class value is assigned.  The
+  cellular automata is run until convergence, which takes place when
+  no cell is in the unassigned state.  The cellular automata is run a
+  further ten times to make sure it is a stable state, and will not
+  change.
 
-  In this model we use the Von Neumann neighbourhood and use a set of
-  rules designed to implement a majority vote system.  This has the
-  Manhattan effect on its neighbours
+  The state of each cell, as shown in figure 3, represents a class
+  assignment with the intention of the cells organising themselves
+  into areas of the same class.
+#+CAPTION: An example of how cells may organise themselves to represent areas of the same class
+#+attr_latex: width=30em \textwidth
+#+BEGIN_DITAA class_regions_diagram -r -S -E
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 2 | 2 | 1 | 1 | 2 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+| 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
++---+---+---+---+---+---+---+---+---+---+
+#+END_DITAA
+
+The cellular automata does this by using a simple voting system which
+has the effect of reducing uncertainty of the outcome. The majority
+wins approach is used where if the majority of the cells neighbours
+are of one class then the cell changes its value to that class.  The
+effect of this is that when convergence happens, where all cells are
+assigned a class, then the class of the cells will remain static no
+matter how many more iterations the cellular automata goes through.
+There is a problem of what to do if there is a deadlock where the
+neighbours classes end up with a even number of 2 or more classes.  In
+this case the conflict is resolved by randomly picking between the
+classes. The voting is shown in figure 4 rules are defined in
+figure 5. This voting system is insensitive to neighbours location.
+The rules used by the cellular automata, as shown in figure 5, are a
+modification of Fawcett's \cite{fawcett08} rules, in that I am
+allowing for more than one class, where as Fawcett \cite{fawcett08} is
+only allowing for only two classes, which he says that cellular
+automata is good at solving, implying that cellular automata do not do
+as well on classification problems with more than one class.
+#+CAPTION: Voting system illustrated where the centre cells value is determined by its surrounding neighbours
+#+attr_latex: width=30em \textwidth
+#+BEGIN_DITAA voting_system -r -S -E
+    +-----+          +-----------+          +-----+
+    |  1  |          |     1     |          |  0  |
++---+-----+---+  +---+-----------+---+  +---+-----+---+
+|   |c999 |   |  |   | c999      |   |  |   | c999|   |
+| 2 |*1*  | 1 |  | 2 |*rand{1,2}*| 1 |  | 0 |  0  | 0 |
++---+-----+---+  +---+-----------+---+  +---+-----+---+
+    |  1  |          |     2     |          |  0  |
+    +-----+          +-----------+          +-----+
+   Winner            Stalemate              All neighbours
+   1 is the          neither side wins         are 0
+   majority so       so picks from two
+   one is picked     values at random
+#+END_DITAA
+
+#+CAPTION: The rules used by the cellular automata
+#+attr_latex: width=40em \textwidth
+#+BEGIN_DITAA rules_definitions -r -S -E
+/----------------------------------------------------------------------------\
+| 1. If neighbour is unassigned then the vote from this cell does not        |
+|    count                                                                   |
+| 2. Cell is equal to the value of the majority of the values of the         |
+|    surrounding cells.                                                      |
+| 3. If there is a stalemate then the result is resolved by randomly         |
+|    picking between the possible values.                                    |
+| 4. If the sum of all neighbours are zero then cells value does not change. |
+|                                                                            |
+\----------------------------------------------------------------------------/
+#+END_DITAA
+
+
+
+Fawcett \cite{fawcett08} uses the Von Newsman neighbourhood as it is
+linear in number of dimensions. So if there are two dimensions then
+there will be four neighbours,  if three dimensions, then there will
+be six neighbours.  So for every dimension added, two more neighbours
+will be added.  This, according to Fawcett \cite{fawcett08} makes it
+scale well.
+
+The global affect of these update rules is that each cell in the grid
+is assigned the value of its nearest neighbour, as measured by the
+Manhattan distance.  This is called the Manhattan effect as
+illustrated in figure 6.
+
+#+CAPTION: Manhattan effect.
+#+attr_latex: width=30em \textwidth
+[[file:./manhattan_effect.png]]
+
+* Implementation of Fawcett's \cite{fawcett08} idea
+The programming language chosen is C++ making use of Standard Template
+Library (STL).  This is a command line programme, which needs to
+parameters passed to it, the path to the file containing the training
+data and the path to the file containing the test data.  I used the
+Iris data set gained from the site
+http://archive.ics.uci.edu/ml/datasets/Iris
+
 
 * Results
+#+begin_example 
+begin
+before init graph
+graph size = 6552000
+graph size = 6552000
+after init graph
+
+loading training data from data/iris_train.data
+
+number of classes: 3
+classes: 1 2 3 
+Number of dimensions: 4
+
+running CA until convergence
+
+0% done
+been going for 0 steps
+0% done
+been going for 5 steps
+1% done
+been going for 10 steps
+4% done
+been going for 15 steps
+10% done
+been going for 20 steps
+18% done
+been going for 25 steps
+27% done
+been going for 30 steps
+38% done
+been going for 35 steps
+48% done
+been going for 40 steps
+58% done
+been going for 45 steps
+67% done
+been going for 50 steps
+75% done
+been going for 55 steps
+82% done
+been going for 60 steps
+88% done
+been going for 65 steps
+92% done
+been going for 70 steps
+96% done
+been going for 75 steps
+98% done
+been going for 80 steps
+99% done
+been going for 85 steps
+100% done
+finished 100% done
+
+loading test data from data/iris_test.data
+running tests
+results of test are:
+passed 38 / 38
+#+end_example
+
   
 * Conclusions
   
