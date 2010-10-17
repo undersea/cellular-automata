@@ -13,18 +13,6 @@
 #+LINK_UP:   
 #+LINK_HOME: 
 #+XSLT: 
-#+LATEX_HEADER: \lstset{
-#+LATEX_HEADER:         keywordstyle=\color{blue},
-#+LATEX_HEADER:         commentstyle=\color{red},
-#+LATEX_HEADER:         stringstyle=\color{green},
-#+LATEX_HEADER:         basicstyle=\ttfamily\small,
-#+LATEX_HEADER:         columns=fullflexible,
-#+LATEX_HEADER:         basewidth={0.5em,0.4em}
-#+LATEX_HEADER:         }
-
-#+LATEX_HEADER: \RequirePackage{fancyvrb}
-#+LATEX_HEADER: \DefineVerbatimEnvironment{verbatim}{Verbatim}{fontsize=\small,formatcom = {\color[rgb]{0.5,0,0}}}
-
 
 
 #+LaTeX_HEADER: \setlength{\parindent}{0pt}
@@ -59,18 +47,22 @@
 * Background
   A cellular automata is a grid of cells of finite dimensions.  Each
   cell has a limited number of states.  These states are usually in
-  the form of a number like zero for off and one for on.  The grid is
+  the form of a number, like zero for off and one for on.  The grid is
   initialised with each cell being in a initial state such as zero.
-  It is then put through a series of steps, called generations and at
-  each generation the states of the cells are determined from that
+  It is then put through a series of steps, called generations.
+
+  At each generation the states of the cells are determined from that
   cells immediate neighbours from a simple set of rules.  A rule could
   be if three or more neighbours are in a state of zero then the cells
-  state will be one.  There are several forms of neighbourhoods with
-  the two most popular being Von Neumann neighbourhood, as shown in
-  figure 1, and Moore's neighbourhood as shown in figure 2. At each
-  generation the rules applied in parallel, so the states of the cells
-  get determined all at the same time.
+  state will be one.  At each generation the rules are applied in
+  parallel, so the states of the cells get determined all at the same
+  time.
 
+  There are several forms of neighbourhoods with the two most popular
+  being Von Neumann neighbourhood, as shown in figure 1, and Moore's
+  neighbourhood as shown in figure 2. 
+
+  
 #+CAPTION: Von Neumann neighbourhood with neighbours north, south, east and west
 #+attr_latex: width=10em \textwidth
 #+BEGIN_DITAA  von_neumann_diagram -r -S -E
@@ -110,15 +102,15 @@ possible to wrap the edges around to form a toroid.
 * Data Mining (Clustering)
 
   Fawcett \cite{fawcett08} decided to use cellular automata as a
-  instance based learner. They shall be organised so that each axis
-  represents a predicate, so a range of cells represent a particular
-  class in the instance space.  The grid is seeded with training
-  data.  This takes the form of taking attribute values and using them
-  as the coordinates into which the class value is assigned.  The
-  cellular automata is run until convergence, which takes place when
-  no cell is in the unassigned state.  The cellular automata is run a
-  further ten times to make sure it is a stable state, and will not
-  change.
+  instance based learner. The cellular automata shall be organised so
+  that each axis represents a predicate, so a range of cells represent
+  a particular class in the instance space.  The grid is seeded with
+  training data.  This takes the form of taking attribute values and
+  using them as the coordinates into which the class value is
+  assigned.  The cellular automata is run until convergence, which
+  takes place when no cell is in the unassigned state.  The cellular
+  automata is run a further ten times to make sure it is a stable
+  state, and will not change.
 
   The state of each cell, as shown in figure 3, represents a class
   assignment with the intention of the cells organising themselves
@@ -151,22 +143,24 @@ possible to wrap the edges around to form a toroid.
 
 The cellular automata does this by using a simple voting system which
 has the effect of reducing uncertainty of the outcome. The majority
-wins approach is used where if the majority of the cells neighbours
+wins approach is used.  If the majority of the cells neighbours
 are of one class then the cell changes its value to that class.  The
 effect of this is that when convergence happens, where all cells are
-assigned a class, then the class of the cells will remain static no
-matter how many more iterations the cellular automata goes through.
-There is a problem of what to do if there is a deadlock where the
-neighbours classes end up with a even number of 2 or more classes.  In
-this case the conflict is resolved by randomly picking between the
-classes. The voting is shown in figure 4 rules are defined in
-figure 5. This voting system is insensitive to neighbours location.
-The rules used by the cellular automata, as shown in figure 5, are a
-modification of Fawcett's \cite{fawcett08} rules, in that I am
-allowing for more than one class, where as Fawcett \cite{fawcett08} is
-only allowing for only two classes, which he says that cellular
-automata is good at solving, implying that cellular automata do not do
-as well on classification problems with more than one class.
+assigned a class, then the class of the cells will remain static.  No
+matter how many more iterations the cellular automata goes through
+after this moment. There is a problem of what to do if there is a
+deadlock where the neighbours classes end up with a even number of 2
+or more classes.  In this case the conflict is resolved by randomly
+picking between the classes. The voting, as illustrated in figure 4, rules are
+defined in figure 5. This voting system is insensitive to neighbours
+location. The rules used by the cellular automata, as shown in figure
+5, are a modification of Fawcett's \cite{fawcett08} rules.  I
+am allowing for more than one class, where as Fawcett \cite{fawcett08}
+is only allowing for only two classes.  
+
+Fawcett \cite{fawcett08} says that cellular automata is good at
+solving two class problems. This implies that, cellular automata, do
+not do as well on classification problems, with more than two classes. 
 #+CAPTION: Voting system illustrated where the centre cells value is determined by its surrounding neighbours
 #+attr_latex: width=30em \textwidth
 #+BEGIN_DITAA voting_system -r -S -E
@@ -210,12 +204,7 @@ scale well.
 
 The global affect of these update rules is that each cell in the grid
 is assigned the value of its nearest neighbour, as measured by the
-Manhattan distance.  This is called the Manhattan effect as
-illustrated in figure 6.
-
-#+CAPTION: Manhattan effect.
-#+attr_latex: width=30em \textwidth
-[[file:./manhattan_effect.png]]
+Manhattan distance.  This is called the Manhattan effect.
 
 * Implementation of Fawcett's \cite{fawcett08} idea
 
@@ -242,52 +231,14 @@ right and the number that is now left of the decimal point is used and
 the rest is discarded.  This will lead to loss in accuracy, but as far
 as classification is concerned, the values seem to be accurate enough.
 
-To do this transformation a python script was created. The source is
-shown below to illustrate what has to be done to make data usable by
-this programme. 
-
-#+BEGIN_SRC python
-#all data is gained from the file 'iris.data' found in the data folder,
-#which the script is also run from.
-
-#'iris.data' is in a csv format so can be processed by the csv module
-import csv
-
-#A dictionary to use to transform the class names into integers
-name = {'Iris-setosa':1, 'Iris-versicolor':2, 'Iris-virginica':3 }
-
-#create the test data outputing to 'iris_test.data'
-with open('iris_test.data', 'w') as data:
-    abareader = csv.reader(open('iris.data'))
-    #interate through a list comprising of every 4th item in the data list
-    for row in list(abareader)[::4]:
-        #interate over the first 4 items in the row
-        for x in row[0:4]:
-            #transform the float values into integer values
-            #by multiplying by 10 and discarding anything after decimal point
-            print >>data, "%2d"%(int(round(float(x)*10))),
-        #make the class name a integer
-        print >>data, "%d" % (int(name[row[4]]))
-        
-
-#create the training data outputing to iris_train.data
-with open('iris_train.data', 'w') as data:
-    abareader = csv.reader(open('iris.data'))
-    tmp = list(abareader)#the entire list
-    tmp2 = tmp[::4]#represents the testing data
-    #interate over a diff between the 2 lists, tmp and tmp2
-    for row in [i for i in tmp+tmp2 if i not in tmp or i not in tmp2]:
-        for x in row[0:4]:
-            print >>data, "%2d"%(int(round(float(x)*10))),
-        print >>data, "%d" % (int(name[row[4]]))
-
-
-#+END_SRC
-
+To do this transformation a python script was created and float values
+were turned into integer values and the result outputted into 3 files.
+These are the definition file containing the dimensions of the grid to
+create. The training data file and the testing data file.
 
 To run the programme it requires three parameters, which represent the
-path to the grid definitions, the training data, and then the testing
-data. 
+path to the grid definitions file, the training data file, and then
+the testing data file. 
 
 The grid definitions file contains in one line, separated by spaces,
 the number of dimensions, and the maximum size for each of these
@@ -320,74 +271,55 @@ to make sure the grid is stable, as in no more changes can take place.
 
 * Results
 
-When I ran this programme, I found that the more training data I gave
-it, the more accurate the results.  
-#+begin_example 
-begin
-before init graph
-graph size = 6552000
-graph size = 6552000
-after init graph
+  The Iris data set was used.  The predicates are sepal length,
+  sepal width, petal length, and petal width.  The aim is to use these
+  predicates to figure out what class of Iris the data refers to.  These
+  classes are  Iris Setosa, Iris Versicolour, and Iris Virginica.  The
+  predicate values are transformed into integer values and so is the
+  class values.
 
-loading training data from data/iris_train.data
+  The programme was run several times, each time with less training
+  data. The results are shown in table 1. When the programme was run, in
+  general, the more training data was used, the more accurate the
+  results.  The anomaly of the half training suggests that, like any
+  other algorithm, the accuracy depends on the input data that is
+  used. The only way the results can be changed is to change the input
+  data used.
 
-number of classes: 3
-classes: 1 2 3 
-Number of dimensions: 4
+  The results from the same data always give the same result and does so
+  in the same number of steps, every time.  This shows that cellular
+  automata do in fact exhibit a stable 
 
-running CA until convergence
+#+CAPTION: Results from the iris data set with varying amounts of training data
+|---------------+------------|
+| Amount of     | Percentage |
+| training data |    correct |
+|---------------+------------|
+| 1/4 training  |  86.607143 |
+| 1/3 training  |  94.897959 |
+| 1/2 training  |  98.666667 |
+| 2/3 training  |        94. |
+| 3/4 training  |        100 |
+|---------------+------------|
+#+TBLFM: @3$2=(97 / 112)*100::@4$2=(   93 / 98)*100::@5$2=(74 / 75) * 100::@6$2=(47 / 50)*100::@7$2=(38 / 38) *100
 
-0% done
-been going for 0 steps
-0% done
-been going for 5 steps
-1% done
-been going for 10 steps
-4% done
-been going for 15 steps
-10% done
-been going for 20 steps
-18% done
-been going for 25 steps
-27% done
-been going for 30 steps
-38% done
-been going for 35 steps
-48% done
-been going for 40 steps
-58% done
-been going for 45 steps
-67% done
-been going for 50 steps
-75% done
-been going for 55 steps
-82% done
-been going for 60 steps
-88% done
-been going for 65 steps
-92% done
-been going for 70 steps
-96% done
-been going for 75 steps
-98% done
-been going for 80 steps
-99% done
-been going for 85 steps
-100% done
-finished 100% done
 
-loading test data from data/iris_test.data
-running tests
-results of test are:
-passed 38 / 38
-#+end_example
-  http://archive.ics.uci.edu/ml/index.html
 * Conclusions
-  
+  The results show that cellular automata can be a effective
+  classifier.  From a simple set of voting rules, individually applied
+  by each cell, using only its immediate neighbours, comes a
+  collective behaviour that can be used as a classifier.
 * Future work
- - Extend the cellular automata to find the best predicates and divide
-   the data into test and train and use this data to create and test
-   itself as a classifier.
+  It would be desirable to use other data sets and see if a similar
+  performance can be achieved.
+
+  Also work on making the amount of time and memory needed for the
+  cellular automata smaller.  
+
+  Also it would be good to see if similar results could be achieved
+  used a fixed size grid of smaller size than that of the range of the
+  predicates used.  Some sort of modulus calculation could perhaps be
+  used.
 
 
 \bibliographystyle{plain}
