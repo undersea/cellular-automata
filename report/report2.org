@@ -13,11 +13,22 @@
 #+LINK_UP:   
 #+LINK_HOME: 
 #+XSLT: 
+#+LATEX_HEADER: \lstset{
+#+LATEX_HEADER:         keywordstyle=\color{blue},
+#+LATEX_HEADER:         commentstyle=\color{red},
+#+LATEX_HEADER:         stringstyle=\color{green},
+#+LATEX_HEADER:         basicstyle=\ttfamily\small,
+#+LATEX_HEADER:         columns=fullflexible,
+#+LATEX_HEADER:         basewidth={0.5em,0.4em}
+#+LATEX_HEADER:         }
+
+#+LATEX_HEADER: \RequirePackage{fancyvrb}
+#+LATEX_HEADER: \DefineVerbatimEnvironment{verbatim}{Verbatim}{fontsize=\small,formatcom = {\color[rgb]{0.5,0,0}}}
 
 
 
-#+LaTeX: \setlength{\parindent}{0pt}
-#+LaTeX: \setlength{\parskip}{1em}
+#+LaTeX_HEADER: \setlength{\parindent}{0pt}
+#+LaTeX_HEADER: \setlength{\parskip}{1em}
 
 
 * Introduction
@@ -96,8 +107,6 @@ empty.  There was no reason given for this, however this could be
 because in a nanotechnology environment it may not be physically
 possible to wrap the edges around to form a toroid.
 
-
-
 * Data Mining (Clustering)
 
   Fawcett \cite{fawcett08} decided to use cellular automata as a
@@ -115,7 +124,7 @@ possible to wrap the edges around to form a toroid.
   assignment with the intention of the cells organising themselves
   into areas of the same class.
 #+CAPTION: An example of how cells may organise themselves to represent areas of the same class
-#+attr_latex: width=30em \textwidth
+#+attr_latex: width=20em \textwidth
 #+BEGIN_DITAA class_regions_diagram -r -S -E
 +---+---+---+---+---+---+---+---+---+---+
 | 2 | 2 | 1 | 1 | 1 | 1 | 1 | 2 | 2 | 2 |
@@ -209,15 +218,110 @@ illustrated in figure 6.
 [[file:./manhattan_effect.png]]
 
 * Implementation of Fawcett's \cite{fawcett08} idea
+
+
 The programming language chosen is C++ making use of Standard Template
 Library (STL).  This is a command line programme, which needs to
 parameters passed to it, the path to the file containing the training
-data and the path to the file containing the test data.  I used the
-Iris data set gained from the site
-http://archive.ics.uci.edu/ml/datasets/Iris
+data and the path to the file containing the test data.
 
+Fawcett \cite{fawcett08} used data sets from from UCI Machine Learning
+Repository http://archive.ics.uci.edu/ml/index.html.  For this
+implementation the Iris data set is used.
+
+To be able to use any data sets for this programme, they must be
+transformed into a format the programme can use, and predicate values
+must be transformed into integer form, so they can be used as
+addresses for the array which represents the grid.  A value of 0.23
+can not be used as a address in a computer array.  Also string values
+for classes can not be used in this implementation as only integer
+values are supported.  Also the data needs to be split into training
+and test data.  To overcome this the float values are multiplied by
+the appropriate value so that the decimal point is shifted to the
+right and the number that is now left of the decimal point is used and
+the rest is discarded.  This will lead to loss in accuracy, but as far
+as classification is concerned, the values seem to be accurate enough.
+
+To do this transformation a python script was created. The source is
+shown below to illustrate what has to be done to make data usable by
+this programme. 
+
+#+BEGIN_SRC python
+#all data is gained from the file 'iris.data' found in the data folder,
+#which the script is also run from.
+
+#'iris.data' is in a csv format so can be processed by the csv module
+import csv
+
+#A dictionary to use to transform the class names into integers
+name = {'Iris-setosa':1, 'Iris-versicolor':2, 'Iris-virginica':3 }
+
+#create the test data outputing to 'iris_test.data'
+with open('iris_test.data', 'w') as data:
+    abareader = csv.reader(open('iris.data'))
+    #interate through a list comprising of every 4th item in the data list
+    for row in list(abareader)[::4]:
+        #interate over the first 4 items in the row
+        for x in row[0:4]:
+            #transform the float values into integer values
+            #by multiplying by 10 and discarding anything after decimal point
+            print >>data, "%2d"%(int(round(float(x)*10))),
+        #make the class name a integer
+        print >>data, "%d" % (int(name[row[4]]))
+        
+
+#create the training data outputing to iris_train.data
+with open('iris_train.data', 'w') as data:
+    abareader = csv.reader(open('iris.data'))
+    tmp = list(abareader)#the entire list
+    tmp2 = tmp[::4]#represents the testing data
+    #interate over a diff between the 2 lists, tmp and tmp2
+    for row in [i for i in tmp+tmp2 if i not in tmp or i not in tmp2]:
+        for x in row[0:4]:
+            print >>data, "%2d"%(int(round(float(x)*10))),
+        print >>data, "%d" % (int(name[row[4]]))
+
+
+#+END_SRC
+
+
+To run the programme it requires three parameters, which represent the
+path to the grid definitions, the training data, and then the testing
+data. 
+
+The grid definitions file contains in one line, separated by spaces,
+the number of dimensions, and the maximum size for each of these
+dimensions. The number of dimensions is the number of predicates, or
+predictors used.  These are the attributes of each class. Each
+predicate has a range of values it can have, so I chose to just go
+from zero to the maximum possible value plus one, for each predicate.
+
+The training data file has a list of predicates followed by their
+class value.  These are all integer values.  Each entry is on a
+separate line.  The same format is used for the testing data.
+
+The programme does not run multiple processes of any kind, so
+therefore can not update every cell for each generation in parallel.
+However this can be simulated by having two grids, one of them has the
+values from the current generation and the other is used to write the
+next generations values to then swapping them over for the next
+generation.
+
+Each cell is updated from the values of its neighbours
+using the voting system rules.  Since it the number of classes can
+vary, depending on the data set, the cell uses the majority of what is
+there and if there is a stalemate, then the cell resolves this by
+randomly  picking between the available classes contained in its
+neighbours. 
+
+At each step the programme checks to see if all cells have
+a class assigned to them.  If the do it runs for ten more generations
+to make sure the grid is stable, as in no more changes can take place.
 
 * Results
+
+When I ran this programme, I found that the more training data I gave
+it, the more accurate the results.  
 #+begin_example 
 begin
 before init graph
@@ -277,11 +381,9 @@ running tests
 results of test are:
 passed 38 / 38
 #+end_example
-
-  
+  http://archive.ics.uci.edu/ml/index.html
 * Conclusions
   
-
 * Future work
  - Extend the cellular automata to find the best predicates and divide
    the data into test and train and use this data to create and test

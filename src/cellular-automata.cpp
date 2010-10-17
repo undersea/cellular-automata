@@ -13,10 +13,10 @@
 
 //#define DEBUG2
 
-
-#define TRAINING_DATA_FILENAME argv[1]
-#define TESTING_DATA_FILENAME argv[2]
-#define TEST_CMD_LINE_INPUTS if(argc < 3) { printf("%s <training_data_filename> <testing_data_filename>\n", argv[0]); return 1; }
+#define DEFINITION_FILENAME argv[1]
+#define TRAINING_DATA_FILENAME argv[2]
+#define TESTING_DATA_FILENAME argv[3]
+#define TEST_CMD_LINE_INPUTS if(argc < 4) { printf("%s <definition_filename> <training_data_filename> <testing_data_filename>\n", argv[0]); return 1; }
 
 
 using namespace std;
@@ -209,19 +209,17 @@ bool is_bool(bool tmp)
 }
 
 
-std::vector<unsigned short> load_dimensions(void)
+std::vector<unsigned short> load_dimensions(std::ifstream &input)
 {
   unsigned short size = 1;
-  //char tmp;
-  printf("How many dimensions are there for the CA?: ");
-  scanf("%hu", &size);;
+  
+  input >> size;
   std::vector<unsigned short> dimensions(size);
   for(unsigned i = 0; i < size; i++) {
     unsigned short axis_size = 81;
-    printf("What is the size of axis %d?: ", i);
-    do {
-      scanf("%hu", &axis_size);
-    } while(axis_size == '\n');
+        
+    input >> axis_size;
+    
     dimensions[i] = axis_size;
   }
 
@@ -236,8 +234,17 @@ int main(int argc, char *argv[] )
   TEST_CMD_LINE_INPUTS
 
   printf("begin\n");
-  std::vector<unsigned short> dimensions = load_dimensions();
- 
+  std::ifstream definitions;
+  std::vector<unsigned short> dimensions;
+
+  definitions.open(DEFINITION_FILENAME);
+  if(definitions.good()) {
+    dimensions = load_dimensions(definitions);
+  } else {
+    perror("can't open file");
+    return 1;
+  }
+
   printf("before init graph\n");
   CellularAutomata::CellularAutomata graph(dimensions);
   printf("after init graph\n\n");
@@ -268,11 +275,13 @@ int main(int argc, char *argv[] )
   printf("running CA until convergence\n\n");
   
   printf("%d%% done\n", graph.progress());
+  fflush(stdout);
   for(unsigned steps = 0; steps < 1000 && !graph.full(); steps++) {
     graph.step();
     if(steps % 5 == 0) {
       printf("been going for %u steps\n", steps);
       printf("%d%% done\n", graph.progress());
+      fflush(stdout);
     }
   }
   
@@ -311,6 +320,7 @@ int main(int argc, char *argv[] )
   int number = (int) std::count_if(results.begin(), results.end(), is_bool);
   printf("results of test are:\n");
   printf("passed %d / %u\n", number, (unsigned)results.size());
+  fflush(stdout);
 
   return 0;
 }

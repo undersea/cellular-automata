@@ -1,0 +1,174 @@
+1/2 testing data
+begin
+before init graph
+graph size = 6552000
+graph size = 6552000
+after init graph
+
+loading training data from iris_train.data
+
+number of classes: 3
+classes: 1 2 3 
+Number of dimensions: 4
+
+running CA until convergence
+
+0% done
+been going for 0 steps
+0% done
+been going for 5 steps
+1% done
+been going for 10 steps
+3% done
+been going for 15 steps
+9% done
+been going for 20 steps
+16% done
+been going for 25 steps
+25% done
+been going for 30 steps
+36% done
+been going for 35 steps
+46% done
+been going for 40 steps
+56% done
+been going for 45 steps
+65% done
+been going for 50 steps
+74% done
+been going for 55 steps
+81% done
+been going for 60 steps
+87% done
+been going for 65 steps
+91% done
+been going for 70 steps
+95% done
+been going for 75 steps
+97% done
+been going for 80 steps
+99% done
+been going for 85 steps
+99% done
+finished 100% done
+
+loading test data from iris_test.data
+running tests
+results of test are:
+passed 74 / 75
+1/3 testing data
+begin
+before init graph
+graph size = 6552000
+graph size = 6552000
+after init graph
+
+loading training data from iris_train.data
+
+number of classes: 3
+classes: 1 2 3 
+Number of dimensions: 4
+
+running CA until convergence
+
+0% done
+been going for 0 steps
+0% done
+been going for 5 steps
+1% done
+been going for 10 steps
+4% done
+been going for 15 steps
+10% done
+been going for 20 steps
+17% done
+been going for 25 steps
+27% done
+been going for 30 steps
+37% done
+been going for 35 steps
+48% done
+been going for 40 steps
+58% done
+been going for 45 steps
+67% done
+been going for 50 steps
+75% done
+been going for 55 steps
+82% done
+been going for 60 steps
+88% done
+been going for 65 steps
+92% done
+been going for 70 steps
+96% done
+been going for 75 steps
+98% done
+been going for 80 steps
+99% done
+been going for 85 steps
+100% done
+finished 100% done
+
+loading test data from iris_test.data
+running tests
+results of test are:
+passed 47 / 50
+1/4 testing data
+begin
+before init graph
+graph size = 6552000
+graph size = 6552000
+after init graph
+
+loading training data from iris_train.data
+
+number of classes: 3
+classes: 1 2 3 
+Number of dimensions: 4
+
+running CA until convergence
+
+0% done
+been going for 0 steps
+0% done
+been going for 5 steps
+1% done
+been going for 10 steps
+4% done
+been going for 15 steps
+10% done
+been going for 20 steps
+18% done
+been going for 25 steps
+27% done
+been going for 30 steps
+38% done
+been going for 35 steps
+48% done
+been going for 40 steps
+58% done
+been going for 45 steps
+67% done
+been going for 50 steps
+75% done
+been going for 55 steps
+82% done
+been going for 60 steps
+88% done
+been going for 65 steps
+92% done
+been going for 70 steps
+96% done
+been going for 75 steps
+98% done
+been going for 80 steps
+99% done
+been going for 85 steps
+100% done
+finished 100% done
+
+loading test data from iris_test.data
+running tests
+results of test are:
+passed 38 / 38

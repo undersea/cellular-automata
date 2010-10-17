@@ -1,4 +1,4 @@
-% Created 2010-10-15 Fri 19:04
+% Created 2010-10-16 Sat 14:06
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -15,6 +15,20 @@
 \usepackage{amssymb}
 \usepackage{hyperref}
 \tolerance=1000
+\usepackage{color}
+\usepackage{listings}
+\lstset{
+keywordstyle=\color{blue},
+commentstyle=\color{red},
+stringstyle=\color{green},
+basicstyle=\ttfamily\small,
+columns=fullflexible,
+basewidth={0.5em,0.4em}
+}
+\RequirePackage{fancyvrb}
+\DefineVerbatimEnvironment{verbatim}{Verbatim}{fontsize=\small,formatcom = {\color[rgb]{0.5,0,0}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
 \providecommand{\alert}[1]{\textbf{#1}}
 
 \title{Using Cellular Automata for Data Mining}
@@ -31,8 +45,7 @@
 
 
 
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1em}
+
 
 
 \section{Introduction}
@@ -81,14 +94,14 @@
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=10em \textwidth]{von_neumann_diagram_ab5c418829cc89af521a5f035cd3478a1d0ab63a.png}
+\includegraphics[width=10em \textwidth]{von_neumann_diagram_080a889efe2d78ae7645766c96832046b0d4991c.png}
 \caption{Von Neumann neighbourhood with neighbours north, south, east and west}
 \end{figure}
 
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=10em \textwidth]{moores_diagram_474d0b586f0a94e26fa43bb9b09b0ac8bdff3a3e.png}
+\includegraphics[width=10em \textwidth]{moores_diagram_8640a89f5d0342f9416f8c47d5c724461bea5c0b.png}
 \caption{Moore's neighbourhood with neighbours north, northeast, east, southeast, south, southwest, west and northwest}
 \end{figure}
 
@@ -118,7 +131,7 @@ possible to wrap the edges around to form a toroid.
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=30em \textwidth]{class_regions_diagram_bc9e4f4bc7b51762618d651c221a4835f96f0fdf.png}
+\includegraphics[width=20em \textwidth]{class_regions_diagram_bc9e4f4bc7b51762618d651c221a4835f96f0fdf.png}
 \caption{An example of how cells may organise themselves to represent areas of the same class}
 \end{figure}
 
@@ -143,14 +156,14 @@ as well on classification problems with more than one class.
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=30em \textwidth]{voting_system_507d53b21e0243a73f2c94969b15163b293e6330.png}
+\includegraphics[width=30em \textwidth]{voting_system_ae3ce08149a1da921b6942095a190b29c67f4f68.png}
 \caption{Voting system illustrated where the centre cells value is determined by its surrounding neighbours}
 \end{figure}
 
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=40em \textwidth]{rules_definitions_1cf181b24b965cf1ce82e1e5d169e6b91c4b274f.png}
+\includegraphics[width=40em \textwidth]{rules_definitions_1bfc803defc59585a03e21a155053b5f02586555.png}
 \caption{The rules used by the cellular automata}
 \end{figure}
 
@@ -176,16 +189,71 @@ illustrated in figure 6.
 \section{Implementation of Fawcett's \cite{fawcett08} idea}
 \label{sec-4}
 
+
+
 The programming language chosen is C++ making use of Standard Template
 Library (STL).  This is a command line programme, which needs to
 parameters passed to it, the path to the file containing the training
-data and the path to the file containing the test data.  I used the
-Iris data set gained from the site
-\href{http://archive.ics.uci.edu/ml/datasets/Iris}{http://archive.ics.uci.edu/ml/datasets/Iris}
+data and the path to the file containing the test data.
+
+Fawcett \cite{fawcett08} used data sets from from UCI Machine Learning
+Repository \href{http://archive.ics.uci.edu/ml/index.html}{http://archive.ics.uci.edu/ml/index.html}.  For this
+implementation the Iris data set is used.
+
+To be able to use any data sets for this programme, they must be
+transformed into a format the programme can use, and predicate values
+must be transformed into integer form, so they can be used as
+addresses for the array which represents the grid.  A value of 0.23
+can not be used as a address in a computer array.  Also string values
+for classes can not be used in this implementation as only integer
+values are supported.  Also the data needs to be split into training
+and test data. 
+
+To do this transformation a python script was created. The source is
+shown below to illustrate what has to be done to make data usable by
+this programme. 
+
+\lstset{language=Python}
+\begin{lstlisting}
+#all data is gained from the file 'iris.data' found in the data folder,
+#which the script is also run from.
+
+#'iris.data' is in a csv format so can be processed by the csv module
+import csv
+
+#A dictionary to use to transform the class names into integers
+name = {'Iris-setosa':1, 'Iris-versicolor':2, 'Iris-virginica':3 }
+
+#create the test data outputing to 'iris_test.data'
+with open('iris_test.data', 'w') as data:
+    abareader = csv.reader(open('iris.data'))
+    #interate through a list comprising of every 4th item in the data list
+    for row in list(abareader)[::4]:
+        #interate over the first 4 items in the row
+        for x in row[0:4]:
+            #transform the float values into integer values
+            #by multiplying by 10 and discarding anything after decimal point
+            print >>data, "%2d"%(int(round(float(x)*10))),
+        #make the class name a integer
+        print >>data, "%d" % (int(name[row[4]]))
+
+
+#create the training data outputing to iris_train.data
+with open('iris_train.data', 'w') as data:
+    abareader = csv.reader(open('iris.data'))
+    tmp = list(abareader)#the entire list
+    tmp2 = tmp[::4]#represents the testing data
+    #interate over a diff between the 2 lists, tmp and tmp2
+    for row in [i for i in tmp+tmp2 if i not in tmp or i not in tmp2]:
+        for x in row[0:4]:
+            print >>data, "%2d"%(int(round(float(x)*10))),
+        print >>data, "%d" % (int(name[row[4]]))
+\end{lstlisting}
 \section{Results}
 \label{sec-5}
 
-\begin{verbatim}
+
+\begin{lstlisting}
 begin
 before init graph
 graph size = 6552000
@@ -243,9 +311,8 @@ loading test data from data/iris_test.data
 running tests
 results of test are:
 passed 38 / 38
-\end{verbatim}
-
-  
+\end{lstlisting}
+  \href{http://archive.ics.uci.edu/ml/index.html}{http://archive.ics.uci.edu/ml/index.html}
 \section{Conclusions}
 \label{sec-6}
 
